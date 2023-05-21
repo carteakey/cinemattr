@@ -11,20 +11,15 @@ export const GET = async ({ request }) => {
 		}
 
 		const prompt = `Provide a random searching prompt for a movie searching app which has the following Metadata columns. 
+        Valid functions are [<Operator.AND: 'and'>, <Operator.OR: 'or'>, <Operator.NOT: 'not'>, <Comparator.EQ: 'eq'>, <Comparator.GT: 'gt'>, <Comparator.GTE: 'gte'>, <Comparator.LT: 'lt'>, <Comparator.LTE: 'lte'>]
+        Do not provide anything else but the prompt. DO NOT use genders. Be specific about the plot, and dont provide vague parameters for the metadata. ONLY use numbers when specifying years. Current year is 2023. Dont give more than 2 filters.
                     title,
                     genre,
-                    certificate,
                     year,
-                    stars,
+                    actors,
                     directors,
-                    imdb_ratings
-                    plot_point
-
-                    Use a combination of any 2 or 3 of these metadata columns to generate your prompt. 
-                    Do not provide anything else but the prompt. 
-                    Don't include any quotes or bullets or numbers.
-                    Do not use verbs in the prompt.
-                    Ensure having random plot points or a random actor in the prompt`;
+                    imdb_ratings,
+                    plot`;
 
 		let tokenCount = 0;
 		tokenCount += getTokens(prompt);

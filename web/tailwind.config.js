@@ -3,9 +3,9 @@ export default {
   content: ['./src/**/*.{html,js,svelte,ts}'],
   theme: {
     extend: {
-      // backgroundImage: {
-      //   'pattern': "url('./bg.jpg')",
-      // }
+      backgroundImage: {
+        'pattern': "url('./mismash.png')",
+      }
     },
   },
   plugins: [ ],
