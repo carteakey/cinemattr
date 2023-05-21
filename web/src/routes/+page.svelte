@@ -53,7 +53,7 @@
 				//Wait for 10 seconds before allowing another request
 				setTimeout(() => {
 					proompting = false;
-				}, 3000); 
+				}, 10000); 
 
 				return;
 			}

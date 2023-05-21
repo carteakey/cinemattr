@@ -2,10 +2,9 @@
 	import '../app.css';
 	import Navbar from '../lib/components/NavBar.svelte';
 	import Footer from '../lib/components/Footer.svelte';
-
-	// import { dev } from '$app/environment';
-	// import { inject } from '@vercel/analytics';
-	// inject({ mode: dev ? 'development' : 'production' });
+	import { inject } from '@vercel/analytics';
+	import { dev } from '$app/environment';
+	inject({ mode: dev ? 'development' : 'production' });
 </script>
 
 <div class="bg-pattern bg-repeat-y bg-cover justify-between ">

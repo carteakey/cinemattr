@@ -4,7 +4,7 @@ export default {
   theme: {
     extend: {
       backgroundImage: {
-        'pattern': "url('./mismash.png')",
+        'pattern': "url('/mismash.png')",
       }
     },
   },
