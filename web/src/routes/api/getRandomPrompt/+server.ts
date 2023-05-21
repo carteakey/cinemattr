@@ -10,16 +10,8 @@ export const GET = async ({ request }) => {
 			throw new Error('OPENAI_API_KEY env variable not set');
 		}
 
-		const prompt = `Provide a random searching prompt for a movie searching app which has the following Metadata columns. 
-        Valid functions are [<Operator.AND: 'and'>, <Operator.OR: 'or'>, <Operator.NOT: 'not'>, <Comparator.EQ: 'eq'>, <Comparator.GT: 'gt'>, <Comparator.GTE: 'gte'>, <Comparator.LT: 'lt'>, <Comparator.LTE: 'lte'>]
-        Do not provide anything else but the prompt. DO NOT use genders. DO NOT use apostrophes. Be specific about the plot, and dont provide vague parameters for the metadata. ONLY use numbers when specifying years. Current year is 2023. Dont give more than 2 filters.
-                    title,
-                    genre,
-                    year,
-                    actors,
-                    directors,
-                    imdb_ratings,
-                    plot`;
+		const prompt = `Provide a random searching string for a movie searching app which finds a movie based on plot. 
+        Do not provide anything else but the prompt. Use very specific and random examples that have real answers. Do not use quotes.`;
 
 		let tokenCount = 0;
 		tokenCount += getTokens(prompt);

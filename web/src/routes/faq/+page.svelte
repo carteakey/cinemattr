@@ -1,12 +1,7 @@
 <script>
 	import { slide } from 'svelte/transition';
-    import { fade } from 'svelte/transition';
-
-	let faqs = [
-		{ question: 'What does the app do?', answer: 'Answer 1' },
-		{ question: 'Question 2', answer: 'Answer 2' }
-		// Add more FAQ objects as needed
-	];
+	import { fade } from 'svelte/transition';
+	import { faqs } from '$lib/faqs';
 
 	let activeIndex = null;
 
@@ -20,13 +15,18 @@
 		<h1 class="text-4xl text-center p-4">FAQ</h1>
 		<div class="flex flex-col gap-2">
 			{#each faqs as faq, index}
-				<div class="border border-gray-200 rounded p-4  font-medium">
-					<button class="flex justify-between w-full  " on:click={() => toggleFAQ(index)}>
+				<div class="border border-gray-200 rounded p-4 font-medium bg-neutral-800/70">
+					<button class="flex justify-between w-full" on:click={() => toggleFAQ(index)}>
 						<span class="text-lg font-medium">{faq.question}</span>
 						<span class="">{activeIndex === index ? '-' : '+'}</span>
 					</button>
 					{#if activeIndex === index}
-						<p transition:slide class="border-t py-2 text-neutral-200 border-white mt-2">{faq.answer}</p>
+						<p
+							transition:slide
+							class=" text-slate-200/90 border-t py-2 px-2 border-white mt-2 whitespace-pre-line"
+						>
+						{@html faq.answer}
+						</p>
 					{/if}
 				</div>
 			{/each}
