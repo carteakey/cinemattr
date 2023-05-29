@@ -46,9 +46,9 @@
 				'content-type': 'application/json'
 			}
 		});
-		console.log(source);
+		// console.log(source);
 		source.addEventListener('message', function (e) {
-			console.log(e);
+			// console.log(e);
 			if (e.data === '[DONE]') {
 				//Wait for 10 seconds before allowing another request
 				setTimeout(() => {
@@ -67,7 +67,7 @@
 		source.stream();
 	}
 
-	$: console.log(promise);
+	// $: console.log(promise);
 </script>
 
 <div>

@@ -15,7 +15,7 @@ export const GET = async ({ request }) => {
 
 		let tokenCount = 0;
 		tokenCount += getTokens(prompt);
-		console.log(tokenCount);
+		// console.log(tokenCount);
 
 		if (tokenCount >= 4000) {
 			throw new Error('Query too large');
