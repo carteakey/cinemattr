@@ -12,11 +12,23 @@
 	async function getMovies() {
 		const response = await fetch('/api/getResults', {
 			method: 'POST',
-			body: JSON.stringify({ query: query }),
+			body: JSON.stringify({ "query": query }),
 			headers: {
 				'content-type': 'application/json'
 			}
 		});
+
+		console.log(response.status);
+		console.log(response.statusText);
+
+		if (response.status >= 500) {
+			console.log('Error...');
+			console.log(response);
+			return {
+				message: 'Internal Server Error'
+			};
+		}
+
 		let results = await response.json();
 		return results;
 	}
@@ -32,11 +44,11 @@
 			searching = false;
 			// setTimeout(() => {
 			// 	searching = false;
-			// }, 3000); 
+			// }, 3000);
 		});
 	}
 
-	let proompting=false;
+	let proompting = false;
 	async function getRandomPrompt() {
 		query = '';
 		proompting = true;
@@ -53,7 +65,7 @@
 				//Wait for 10 seconds before allowing another request
 				setTimeout(() => {
 					proompting = false;
-				}, 10000); 
+				}, 10000);
 
 				return;
 			}
@@ -66,12 +78,10 @@
 		});
 		source.stream();
 	}
-
-	// $: console.log(promise);
 </script>
 
 <div>
-	<div in:fade class=" justify-center items-center ">
+	<div in:fade class=" justify-center items-center">
 		<h1 class="text-4xl text-center p-4">Search for movies with AI</h1>
 		<div class="flex flex-col">
 			<Textarea bind:value={query} bind:placeholder />
@@ -79,7 +89,11 @@
 
 		<div class="flex flex-row gap-2 justify-center mt-5 mb-5">
 			{#if searching}
-				<button disabled type="button" class="rounded-md border border-gray-300 backdrop-blur-lg bg-red-800/70  px-2 py-1 items-center flex">
+				<button
+					disabled
+					type="button"
+					class="rounded-md border border-gray-300 backdrop-blur-lg bg-red-800/70 px-2 py-1 items-center flex"
+				>
 					<svg
 						aria-hidden="true"
 						role="status"
@@ -108,7 +122,11 @@
 			{/if}
 
 			{#if proompting}
-				<button disabled type="button" class="rounded-md border border-gray-300 backdrop-blur-lg bg-blue-800/70 px-2 py-1 items-center flex">
+				<button
+					disabled
+					type="button"
+					class="rounded-md border border-gray-300 backdrop-blur-lg bg-blue-800/70 px-2 py-1 items-center flex"
+				>
 					<svg
 						aria-hidden="true"
 						role="status"
@@ -129,12 +147,12 @@
 					<!-- Loading... -->
 				</button>
 			{:else}
-				<button class="rounded-md border border-gray-300 backdrop-blur-lg bg-blue-800/70 px-3 py-1 flex" 
-				on:click={getRandomPrompt}
-				disabled={proompting}>Random Prompt</button>
+				<button
+					class="rounded-md border border-gray-300 backdrop-blur-lg bg-blue-800/70 px-3 py-1 flex"
+					on:click={getRandomPrompt}
+					disabled={proompting}>Random Prompt</button
+				>
 			{/if}
-
-			
 		</div>
 	</div>
 
@@ -147,35 +165,35 @@
 	{:then data}
 		<!-- {@debug data} -->
 		{#if data.titles}
-		<div class="grid md:grid-cols-2 gap-2">
-			{#each Array.from(new Set(data.titles)) as title_id}
-				<div class="flex flex-col">
-					<MovieCard {title_id} />
-				</div>
-			{/each}
-		</div>
+			<div class="grid md:grid-cols-2 gap-2">
+				{#each Array.from(new Set(data.titles)) as title_id}
+					<div class="flex flex-col">
+						<MovieCard {title_id} />
+					</div>
+				{/each}
+			</div>
 		{/if}
 
 		{#if data.titles}
-		{#if data.titles.length==0}
-			<p class="text-center text-lg text-slate-200/90 italic">No titles found... Try again with a different prompt.</p>
-		{/if}	
-		{/if}	
+			{#if data.titles.length == 0}
+				<p class="text-center text-lg text-slate-200/90 italic">
+					No titles found... Try again with a different prompt.
+				</p>
+			{/if}
+		{/if}
 
 		{#if data.message}
-		{#if data.message=="Internal Server Error"}
-			<p class="text-center text-lg text-slate-200/90 italic">Congratulations.. you broke the app. Let the dev know.</p>
-		{/if}	
-		{/if}	
-
+			{#if data.message == 'Internal Server Error'}
+				<p class="text-center text-lg text-slate-200/90 italic">
+					Error in getting results. Try again.
+				</p>
+			{/if}
+		{/if}
 
 		{#if !data.titles}
-			<div class ="h-50"></div>
-		{/if}	
-
+			<div class="h-50" />
+		{/if}
 	{:catch error}
 		<p class="text-center text-lg text-slate-200/90 italic">{error.message}</p>
 	{/await}
-
-
 </div>
