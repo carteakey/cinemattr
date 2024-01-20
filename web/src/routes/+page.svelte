@@ -62,10 +62,13 @@
 		source.addEventListener('message', function (e) {
 			// console.log(e);
 			if (e.data === '[DONE]') {
-				//Wait for 10 seconds before allowing another request
-				setTimeout(() => {
-					proompting = false;
-				}, 10000);
+
+				proompting = false;
+
+				// //Wait for 10 seconds before allowing another request
+				// setTimeout(() => {
+				// 	proompting = false;
+				// }, 10000);
 
 				return;
 			}

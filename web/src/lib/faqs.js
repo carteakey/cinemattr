@@ -27,8 +27,8 @@ export const faqs = [
 			'Very beta!! - often breaks due to the non-deterministic nature of language models. Or I am out of money and have hit my hard API limit on OpenAPI.'
 	},
 	{
-		question: `Why can't i use ChatGPT directly?`,
+		question: `Why can't I use ChatGPT directly?`,
 		answer:
-			'You can! - however GPT Models have a knowledge cutoff, so it will not be aware of any movies released after 2021. This app shows an example of how to plug-in new data to a Language model for question answering.'
+			'You can! - however GPT Models have a knowledge cutoff, so they will not be aware of any movies released after 2021. This app shows an example of how to plug-in new data to a Language model for question answering.'
 	}
 ];

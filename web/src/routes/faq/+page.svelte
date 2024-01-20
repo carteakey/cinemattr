@@ -17,7 +17,7 @@
 			{#each faqs as faq, index}
 				<div class="border border-gray-200 rounded p-4 font-medium bg-neutral-800/70">
 					<button class="flex justify-between w-full" on:click={() => toggleFAQ(index)}>
-						<span class="text-lg font-medium">{faq.question}</span>
+						<span class="text-lg font-medium text-left">{faq.question}</span>
 						<span class="">{activeIndex === index ? '-' : '+'}</span>
 					</button>
 					{#if activeIndex === index}
