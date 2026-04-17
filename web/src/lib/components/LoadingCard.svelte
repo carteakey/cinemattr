@@ -4,40 +4,22 @@
 
 <div
 	role="status"
-	class="relative flex flex-col md:flex-row bg-neutral-800/70 shadow-md p-6 animate-pulse space-y-0 md:space-x-8 items-center "
+	class="flex flex-col md:flex-row gap-4 rounded-xl border border-white/10 bg-neutral-900/50 p-4 md:p-5 shadow-lg backdrop-blur-sm animate-pulse"
 >
-	<div class="hidden md:block h-[250px] w-2/5 flex-none bg-gray-300 bg-center">
-		<div class="w-full h-full items-center flex justify-center">
-            <IconXL/>
-		</div>
-	</div>
-	<!--  -->
 	<div
-		class="md:hidden z-10 absolute inset-0 bg-cover bg-center">
-        <div class="w-full h-full items-center flex justify-center">
+		class="h-[220px] md:h-[240px] w-full md:w-[160px] flex-none rounded-lg bg-neutral-800/80 flex items-center justify-center text-white/10"
+	>
+		<IconXL />
+	</div>
+
+	<div class="flex-1 space-y-3">
+		<div class="h-3 w-32 rounded-full bg-white/10" />
+		<div class="h-2 w-48 rounded-full bg-white/10" />
+		<div class="h-2 w-52 rounded-full bg-white/10" />
+		<div class="h-2 w-48 rounded-full bg-white/10" />
+		<div class="pt-3">
+			<div class="h-2 w-40 rounded-full bg-white/10" />
 		</div>
-    </div>
-
-    <div class="w-full md:hidden">
-		<div class="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-16 mb-4" />
-		<div class="h-7" />
-		<div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 w-32 mb-2.5" />
-		<div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 w-24 mb-2.5" />
-		<div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 w-32 mb-2.5" />
-		<div class="h-7" />
-		<div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 w-32 mb-2.5" />
-		<div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 w-32" />
 	</div>
-
-	<div class="w-full md:block hidden">
-		<div class="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-32 mb-4" />
-		<div class="h-7" />
-		<div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 w-48 mb-2.5" />
-		<div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 w-52 mb-2.5" />
-		<div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 w-48 mb-2.5" />
-		<div class="h-7" />
-		<div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 w-48 mb-2.5" />
-		<div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 w-48" />
-	</div>
-	<span class="sr-only">Loading...</span>
+	<span class="sr-only">Loading</span>
 </div>
