@@ -3,8 +3,10 @@
 	import { fade } from 'svelte/transition';
 	import { faqs } from '$lib/faqs';
 
+	/** @type {number | null} */
 	let activeIndex = null;
 
+	/** @param {number} index */
 	function toggleFAQ(index) {
 		activeIndex = activeIndex === index ? null : index;
 	}

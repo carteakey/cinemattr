@@ -6,15 +6,28 @@
 	export let title_id;
 
 	async function getMovieInfo() {
-		const response = await fetch('/api/getDetails', {
-			method: 'POST',
-			body: JSON.stringify({ title_id: title_id }),
-			headers: {
-				'content-type': 'application/json'
+		try {
+			const response = await fetch('/api/getDetails', {
+				method: 'POST',
+				body: JSON.stringify({ title_id: title_id }),
+				headers: {
+					'content-type': 'application/json'
+				}
+			});
+			const movieInfo = await response.json();
+
+			if (!response.ok || movieInfo?.error) {
+				return {
+					error: movieInfo?.error?.message ?? 'Unable to load movie details right now.'
+				};
 			}
-		});
-		let MovieInfo = await response.json();
-		return MovieInfo;
+
+			return movieInfo;
+		} catch {
+			return {
+				error: 'Unable to load movie details right now.'
+			};
+		}
 	}
 
 	let promise = getMovieInfo();
@@ -22,50 +35,69 @@
 
 <div>
 	{#await promise}
-		<!-- <LoadingCard incomingStream={false} /> -->
+		<!-- LoadingCard renders at parent level -->
 	{:then data}
-		<!-- {@debug data} -->
-		<div in:fade class="flex flex-col md:flex-row bg-neutral-800/70 shadow-md p-4 md:p-6 items-center">
+		{#if data.error}
 			<div
-				class="h-[220px] md:h-[250px] flex-none w-2/5 md:w-2/5 md:bg-cover bg-center bg-cover"
-				style={`background-image: url(${data.Poster})`}
-			/>
-			<div class="flex flex-col justify-between md:ml-6 pt-3 md:pt-0 p-2 md:p-0">
-				<div>
-					<div class="flex justify-between" >
-						<div class="font-bold text-slate-200 text-md">
-							{data.Title}
+				in:fade
+				class="flex flex-col rounded-xl border border-white/10 bg-neutral-900/60 p-5 shadow-lg backdrop-blur-sm"
+			>
+				<div class="font-semibold text-white text-sm mb-1">{title_id}</div>
+				<p class="text-white/60 text-sm italic">{data.error}</p>
+			</div>
+		{:else}
+			<div
+				in:fade
+				class="group flex flex-col md:flex-row gap-4 rounded-xl border border-white/10 bg-neutral-900/60 p-4 md:p-5 shadow-lg backdrop-blur-sm transition hover:border-white/20 hover:bg-neutral-900/75"
+			>
+				<div
+					class="h-[220px] md:h-[240px] w-full md:w-[160px] flex-none rounded-lg bg-neutral-800 bg-center bg-cover shadow-inner"
+					style={`background-image: url(${data.Poster})`}
+				/>
+				<div class="flex flex-1 flex-col justify-between">
+					<div>
+						<div class="flex items-baseline justify-between gap-3">
+							<h3 class="font-semibold text-white text-base leading-snug">
+								{data.Title}
+							</h3>
+							<span class="font-medium text-white/50 text-sm tabular-nums">{data.Year}</span>
 						</div>
-						<span class="font-bold text-slate-200/60 text-md ml-2">{data.Year}</span>
-					</div>
-					<!-- <p class=" text-slate-200/50 ml-4 items-center text-sm">108 min</p> -->
-					<div class="text-slate-200/50 italic mb-4 text-sm">
-						{data.Genre}
+						<div class="text-white/50 text-xs uppercase tracking-wide mt-1 mb-3">
+							{data.Genre}
+						</div>
+
+						<p class="text-white/85 text-sm leading-relaxed mb-3 line-clamp-4">
+							{data.Plot}
+						</p>
+						<p class="text-white/50 text-xs line-clamp-2">
+							<span class="text-white/40">Starring:</span>
+							{data.Actors}
+						</p>
 					</div>
 
-					<div class="text-slate-200/90 mb-4 text-sm line-clamp-4">
-						{data.Plot}
-					</div>
-					<div class="text-slate-200/50 mb-4 text-sm line-clamp-2">
-						Starring: {data.Actors}
-					</div>
-					<!-- <div class="text-slate-200/50 text-sm">
-					Directed by: {data.Director}
-				</div> -->
-					<div class="flex flex-row justify-end gap-2 items-center">
-						<p class="text-sm text-slate-200/90">{data.imdbRating}</p>
-
+					<div class="mt-4 flex items-center justify-between gap-3">
+						{#if data.imdbRating}
+							<span
+								class="inline-flex items-center gap-1 rounded-full border border-yellow-400/30 bg-yellow-400/10 px-2 py-0.5 text-xs font-medium text-yellow-200 tabular-nums"
+							>
+								★ {data.imdbRating}
+							</span>
+						{:else}
+							<span />
+						{/if}
 						<a
 							target="_blank"
 							href="https://www.imdb.com/title/{title_id}"
 							rel="noreferrer"
-							class="float-right flex items-center"
+							class="inline-flex items-center gap-1.5 rounded-md border border-white/10 bg-white/5 px-2.5 py-1 text-xs font-medium text-white/80 transition hover:border-white/20 hover:bg-white/10"
+							aria-label="Open on IMDb"
 						>
-							<img src="./IMDB.svg" alt="IMDb" class="w-10 h-10 mr-1" />
+							<img src="./IMDB.svg" alt="" class="h-4 w-auto" />
+							<span>IMDb</span>
 						</a>
 					</div>
 				</div>
 			</div>
-		</div>
+		{/if}
 	{/await}
 </div>
