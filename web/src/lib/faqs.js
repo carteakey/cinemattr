@@ -2,33 +2,38 @@ export const faqs = [
 	{
 		question: 'What does the app do?',
 		answer: `
-        It finds movies!
-        Just enter any details e.g. plot, actors, directors, year and it will show the most similar results.
+        Finds movies using natural language descriptions.
+        Describe a plot, mood, genre, year — anything. It returns the closest matches.
 
         A few examples:
         - Movie where people get stuck in alternate realities.
-        - A thriller movie from the year 2019 with a plot revolving around a bank heist.
+        - A thriller from 2019 about a bank heist.
+        - Feel-good animated film for adults, after 2015.
         `
 	},
 	{
 		question: 'How does it work?',
 		answer: `
-    - Self querying retriever using <b class='text-white'>LangChain</b>, on a <b class='text-white'>Pinecone</b> database containing popular movies released since 1950.
-    - Movie plots collected scraping Wikipedia plot sections and IMDb synopses.
-    - An OpenAI-compatible LLM translates user input to a vector database query (provider is configurable by env vars).
-    - Initial filtering is done through metadata columns (title, year, rating, actors etc.) using operators like > < = AND OR.
-    - Semantic search is done on the plot and summaries extracted for each movie.
-    - API is hosted as a standalone Python service (no AWS Lambda dependency).
-    - Frontend hosted on <b class='text-white'>Vercel</b> and built using <b class='text-white'>SvelteKit</b>.`
+    - An <b class='text-white'>OpenAI-compatible LLM</b> parses your query into structured filters (year, genre, rating) and a semantic query.
+    - The semantic query is embedded and matched against a <b class='text-white'>DuckDB VSS</b> vector index using HNSW cosine similarity.
+    - Metadata filters (year range, genres, min rating) are applied in the same SQL query.
+    - Movie plots were collected by scraping Wikipedia plot sections and IMDb synopses.
+    - Backend is a standalone <b class='text-white'>FastAPI</b> service — no LangChain, no Pinecone, no AWS Lambda.
+    - Frontend built with <b class='text-white'>SvelteKit</b> and hosted on <b class='text-white'>Vercel</b>.`
 	},
 	{
 		question: 'Why am I getting errors or no results?',
 		answer:
-			'Very beta!! - often breaks due to the non-deterministic nature of language models. Or I am out of money and have hit my hard API limit on OpenAPI.'
+			'The app is in beta. If search returns nothing, the query may be too narrow — try broadening it. Errors usually mean the backend is cold-starting (scale-to-zero hosting) or an API limit was hit.'
 	},
 	{
-		question: `Why can't I use ChatGPT directly?`,
+		question: `Why can't I just use ChatGPT directly?`,
 		answer:
-			'You can! - however GPT Models have a knowledge cutoff, so they will not be aware of any movies released after 2021. This app shows an example of how to plug-in new data to a Language model for question answering.'
+			"You can — but LLMs have a knowledge cutoff and don't have structured movie metadata. This app searches a curated corpus of movies released since 1950, with plot embeddings built specifically for semantic similarity."
+	},
+	{
+		question: 'Which LLM / embedding provider does it use?',
+		answer:
+			"Any OpenAI-compatible provider. The backend is configured via environment variables (<b class='text-white'>LLM_BASE_URL</b>, <b class='text-white'>LLM_MODEL</b>, etc.) — OpenAI, Gemini, and local models all work."
 	}
 ];
