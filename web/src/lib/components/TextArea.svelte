@@ -5,8 +5,10 @@
 	export let value = '';
 	export let placeholder = '';
 
-	function handleChange(event) {
-		value = event.target.value;
+	function handleChange(
+		/** @type {Event & { currentTarget: EventTarget & HTMLTextAreaElement }} */ event
+	) {
+		value = event.currentTarget.value;
 	}
 </script>
 

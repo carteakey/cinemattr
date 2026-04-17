@@ -7,7 +7,7 @@
 >
 	<div class="text-white/70 flex items-center flex-none">
 		Built using <span class="ml-1 font-bold">LangChain</span>,<span class="mx-1 font-bold"
-			>OpenAI</span
+			>OpenAI-compatible models</span
 		>
 		& <span class="ml-1 font-bold">SvelteKit</span>.
 	</div>

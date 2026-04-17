@@ -7,29 +7,29 @@
 	export let placeholder = 'Enter any details about the movie...';
 	import { fade } from 'svelte/transition';
 
-	let promise = Promise.resolve([]);
+	/** @typedef {{ titles?: string[]; message?: string; error?: { message?: string; status?: number } }} SearchResponse */
+	/** @type {Promise<SearchResponse>} */
+	let promise = Promise.resolve({});
+	let errorMessage = '';
+	let promptErrorMessage = '';
 
 	async function getMovies() {
+		errorMessage = '';
+		promptErrorMessage = '';
 		const response = await fetch('/api/getResults', {
 			method: 'POST',
-			body: JSON.stringify({ "query": query }),
+			body: JSON.stringify({ query }),
 			headers: {
 				'content-type': 'application/json'
 			}
 		});
 
-		console.log(response.status);
-		console.log(response.statusText);
-
-		if (response.status >= 500) {
-			console.log('Error...');
-			console.log(response);
-			return {
-				message: 'Internal Server Error'
-			};
-		}
-
+		/** @type {SearchResponse} */
 		let results = await response.json();
+		if (!response.ok) {
+			errorMessage = results?.error?.message ?? 'Error in getting results. Try again.';
+			return results;
+		}
 		return results;
 	}
 
@@ -52,34 +52,50 @@
 	async function getRandomPrompt() {
 		query = '';
 		proompting = true;
-		var source = new SSE('/api/getRandomPrompt', {
+		promptErrorMessage = '';
+		const source = new SSE('/api/getRandomPrompt', {
 			method: 'GET',
 			headers: {
 				'content-type': 'application/json'
 			}
 		});
-		// console.log(source);
+
+		function stopPrompting(message = '') {
+			proompting = false;
+			promptErrorMessage = message;
+			source.close?.();
+		}
+
 		source.addEventListener('message', function (e) {
-			// console.log(e);
-			if (e.data === '[DONE]') {
-
-				proompting = false;
-
-				// //Wait for 10 seconds before allowing another request
-				// setTimeout(() => {
-				// 	proompting = false;
-				// }, 10000);
-
+			const messageEvent = /** @type {MessageEvent} */ (e);
+			if (messageEvent.data === '[DONE]') {
+				stopPrompting();
 				return;
 			}
-			var payload = JSON.parse(e.data);
-			const [{ delta }] = payload.choices;
+
+			let payload;
+			try {
+				payload = JSON.parse(messageEvent.data);
+			} catch {
+				stopPrompting('Unable to generate a random prompt right now.');
+				return;
+			}
+
+			const [{ delta } = { delta: {} }] = payload.choices ?? [];
 
 			if (delta.content) {
 				query = (query ?? '') + delta.content;
 			}
 		});
-		source.stream();
+		source.addEventListener('error', function () {
+			stopPrompting('Unable to generate a random prompt right now.');
+		});
+
+		try {
+			source.stream();
+		} catch {
+			stopPrompting('Unable to generate a random prompt right now.');
+		}
 	}
 </script>
 
@@ -191,6 +207,24 @@
 					Error in getting results. Try again.
 				</p>
 			{/if}
+		{/if}
+
+		{#if data.error}
+			<p class="text-center text-lg text-slate-200/90 italic">
+				{errorMessage || data.error.message}
+			</p>
+		{/if}
+
+		{#if promptErrorMessage}
+			<p class="text-center text-lg text-slate-200/90 italic">
+				{promptErrorMessage}
+			</p>
+		{/if}
+
+		{#if errorMessage && !data.error}
+			<p class="text-center text-lg text-slate-200/90 italic">
+				{errorMessage}
+			</p>
 		{/if}
 
 		{#if !data.titles}

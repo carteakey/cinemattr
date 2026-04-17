@@ -15,10 +15,10 @@ export const faqs = [
 		answer: `
     - Self querying retriever using <b class='text-white'>LangChain</b>, on a <b class='text-white'>Pinecone</b> database containing popular movies released since 1950.
     - Movie plots collected scraping Wikipedia plot sections and IMDb synopses.
-    - OpenAI LLM translates user input to a vector database query.
+    - An OpenAI-compatible LLM translates user input to a vector database query (provider is configurable by env vars).
     - Initial filtering is done through metadata columns (title, year, rating, actors etc.) using operators like > < = AND OR.
     - Semantic search is done on the plot and summaries extracted for each movie.
-    - API hosted on <b class='text-white'>AWS Lambda</b>.
+    - API is hosted as a standalone Python service (no AWS Lambda dependency).
     - Frontend hosted on <b class='text-white'>Vercel</b> and built using <b class='text-white'>SvelteKit</b>.`
 	},
 	{

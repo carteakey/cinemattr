@@ -1,13 +1,16 @@
-
+import { env } from '$env/dynamic/private';
 import type { CreateChatCompletionRequest, ChatCompletionRequestMessage } from 'openai';
 import { getTokens } from '$lib/tokenizer';
 import { json } from '@sveltejs/kit';
-import { OPENAI_API_KEY } from '$env/static/private';
 
-export const GET = async ({ request }) => {
+export const GET = async () => {
 	try {
-		if (!OPENAI_API_KEY) {
-			throw new Error('OPENAI_API_KEY env variable not set');
+		const llmApiKey = env.LLM_API_KEY ?? env.OPENAI_API_KEY;
+		const llmBaseUrl = env.LLM_BASE_URL ?? 'https://api.openai.com/v1';
+		const llmModel = env.LLM_MODEL ?? 'gpt-4.1-mini';
+
+		if (!llmApiKey && llmBaseUrl.includes('openai.com')) {
+			throw new Error('LLM_API_KEY or OPENAI_API_KEY env variable not set');
 		}
 
 		const prompt = `Provide a random searching string for a movie searching app which finds a movie based on plot. 
@@ -21,27 +24,35 @@ export const GET = async ({ request }) => {
 			throw new Error('Query too large');
 		}
 
-        const messages: ChatCompletionRequestMessage[] = [{ role: 'system', content: prompt }];
+		const messages: ChatCompletionRequestMessage[] = [{ role: 'system', content: prompt }];
 
 		const chatRequestOpts: CreateChatCompletionRequest = {
-			model: 'gpt-3.5-turbo',
+			model: llmModel,
 			messages,
 			temperature: 0.9,
 			stream: true
 		};
 
-		const chatResponse = await fetch('https://api.openai.com/v1/chat/completions', {
-			headers: {
-				Authorization: `Bearer ${OPENAI_API_KEY}`,
-				'Content-Type': 'application/json'
-			},
+		const headers: Record<string, string> = {
+			'Content-Type': 'application/json'
+		};
+		if (llmApiKey) {
+			headers.Authorization = `Bearer ${llmApiKey}`;
+		}
+
+		const chatResponse = await fetch(`${llmBaseUrl.replace(/\/$/, '')}/chat/completions`, {
+			headers,
 			method: 'POST',
 			body: JSON.stringify(chatRequestOpts)
 		});
 
 		if (!chatResponse.ok) {
-			const err = await chatResponse.json();
-			throw new Error(err.error.message);
+			try {
+				const err = await chatResponse.json();
+				throw new Error(err?.error?.message ?? chatResponse.statusText);
+			} catch {
+				throw new Error(chatResponse.statusText || 'Request failed');
+			}
 		}
 
 		return new Response(chatResponse.body, {
