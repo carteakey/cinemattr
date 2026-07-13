@@ -27,7 +27,7 @@ export const POST: RequestHandler = async ({ request, fetch }) => {
 			method: 'POST',
 			headers: { 'content-type': 'application/json' },
 			body: JSON.stringify({ query: query.trim() }),
-			signal: AbortSignal.timeout(Number(env.SEARCH_API_TIMEOUT_MS) || 12_000)
+			signal: AbortSignal.timeout(Number(env.SEARCH_API_TIMEOUT_MS) || 60_000)
 		});
 		const payload = await response.json().catch(() => null);
 		if (!response.ok) {

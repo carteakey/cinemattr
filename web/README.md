@@ -42,7 +42,7 @@ OMDB_API_KEY=...
 # Optional retry/timeout tuning
 SEARCH_API_MAX_RETRIES=3
 SEARCH_API_RETRY_DELAY_MS=1000
-SEARCH_API_TIMEOUT_MS=12000
+SEARCH_API_TIMEOUT_MS=60000
 ```
 
 Works with any OpenAI-compatible provider for `LLM_*` — OpenAI, Gemini, local models.
