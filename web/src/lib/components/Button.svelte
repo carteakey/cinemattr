@@ -3,13 +3,13 @@
 	let { variant = 'primary', disabled = false, type = 'button', onclick, children } = $props();
 
 	const base =
-		'inline-flex items-center justify-center gap-2 rounded-lg border px-4 py-2 text-sm font-medium tracking-wide transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-900 disabled:opacity-60 disabled:cursor-not-allowed';
+		'display-type ticket-cut inline-flex min-h-11 flex-1 items-center justify-center gap-2 border px-5 py-2 text-base font-bold transition duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950 disabled:cursor-not-allowed disabled:opacity-40 sm:flex-none';
 
 	const variants = {
 		primary:
-			'border-red-500/40 bg-red-700/80 hover:bg-red-600/90 text-white shadow-sm shadow-red-900/40 focus-visible:ring-red-400',
+			'border-[#6b321e] bg-[#d89426] text-[#21160f] shadow-[3px_3px_0_#713144] hover:-translate-y-0.5 hover:bg-amber-300 focus-visible:ring-amber-300',
 		secondary:
-			'border-white/20 bg-neutral-800/70 hover:bg-neutral-700/70 text-white/90 focus-visible:ring-white/40'
+			'border-[#5c4236] bg-[#f0e4c9] text-[#30231e] shadow-[3px_3px_0_#49303e] hover:-translate-y-0.5 hover:bg-white focus-visible:ring-white/40'
 	};
 
 	let classes = $derived(`${base} ${variants[variant] ?? variants.primary}`);

@@ -4,7 +4,7 @@
 </script>
 
 <textarea
-	class="w-full min-h-[120px] resize-y rounded-lg border border-white/20 bg-neutral-900/60 px-4 py-3 text-base text-white placeholder:text-white/40 shadow-inner backdrop-blur-sm transition focus:border-red-400/60 focus:outline-none focus:ring-2 focus:ring-red-400/40"
+	class="display-type min-h-[132px] w-full resize-none rounded-none border-0 bg-transparent px-4 py-3 text-lg leading-relaxed text-[#2d2320] outline-none placeholder:italic placeholder:text-[#5f5048]/65 focus:ring-0 sm:min-h-[150px] sm:px-5 sm:py-4 sm:text-xl"
 	{value}
 	{placeholder}
 	oninput={(e) => {

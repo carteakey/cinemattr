@@ -11,45 +11,41 @@
 	}
 </script>
 
-<div in:fade>
-	<div class="justify-center items-center">
-		<h1 class="text-4xl text-center p-4">FAQ</h1>
-		<div class="flex flex-col gap-2">
-			{#each faqs as faq, index}
-				<div class="border border-gray-200 rounded p-4 font-medium bg-neutral-800/70">
-					<button class="flex justify-between w-full" onclick={() => toggleFAQ(index)}>
-						<span class="text-lg font-medium text-left">{faq.question}</span>
-						<span>{activeIndex === index ? '-' : '+'}</span>
-					</button>
-					{#if activeIndex === index}
-						<p
-							transition:slide
-							class="text-slate-200/90 border-t py-2 px-2 border-white mt-2 whitespace-pre-line"
-						>
-							{faq.answer}
-						</p>
-					{/if}
-				</div>
-			{/each}
-		</div>
+<div in:fade class="mx-auto max-w-3xl py-5 sm:py-10">
+	<header class="mb-10 text-center">
+		<p class="eyebrow mb-3">A little context</p>
+		<h1 class="display-type text-4xl font-bold tracking-[-0.04em] text-[#eee2c9] sm:text-5xl">
+			Frequently asked questions
+		</h1>
+		<p class="mx-auto mt-4 max-w-lg text-sm leading-relaxed text-white/50">
+			How cinemattr searches, what it knows, and what happens to your queries.
+		</p>
+	</header>
+	<div class="flex flex-col gap-3">
+		{#each faqs as faq, index}
+			<div
+				class="border-2 border-amber-100/15 bg-[#171116] p-5 shadow-[4px_4px_0_rgba(84,32,62,0.3)] transition hover:-translate-y-0.5 hover:border-amber-200/30"
+			>
+				<button
+					class="flex w-full items-center justify-between gap-6"
+					onclick={() => toggleFAQ(index)}
+					aria-expanded={activeIndex === index}
+				>
+					<span class="text-left text-base font-medium sm:text-lg">{faq.question}</span>
+					<span
+						class="grid h-7 w-7 flex-none place-items-center rounded-full bg-white/[0.06] text-lg font-light text-white/50"
+						>{activeIndex === index ? '−' : '+'}</span
+					>
+				</button>
+				{#if activeIndex === index}
+					<p
+						transition:slide
+						class="mt-4 whitespace-pre-line border-t border-white/10 pt-4 text-sm font-normal leading-relaxed text-white/60"
+					>
+						{faq.answer}
+					</p>
+				{/if}
+			</div>
+		{/each}
 	</div>
 </div>
-
-<style>
-	.border {
-		transition: border-color 0.2s ease;
-	}
-
-	.border-gray-200 {
-		border-color: #edf2f7;
-	}
-
-	.border-gray-200:hover,
-	.border-gray-200:focus {
-		border-color: #cbd5e0;
-	}
-
-	.text-lg {
-		font-size: 1.125rem;
-	}
-</style>

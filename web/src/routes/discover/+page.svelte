@@ -101,15 +101,17 @@
 
 <svelte:window onkeydown={handleKey} />
 
-<section class="mx-auto max-w-xl pb-16">
+<section class="mx-auto max-w-xl pb-16 pt-5 sm:pt-8">
 	<header class="mb-6 text-center">
-		<p class="mb-2 text-xs font-semibold uppercase tracking-[0.24em] text-red-300">Movie match</p>
-		<h1 class="text-4xl font-semibold tracking-tight">What should we watch?</h1>
+		<p class="eyebrow mb-3">Movie match</p>
+		<h1 class="display-type text-4xl font-bold tracking-[-0.04em] text-[#eee2c9] sm:text-5xl">
+			What should we watch?
+		</h1>
 		<p class="mt-2 text-sm text-white/60">Swipe, use ← and →, or tap the buttons.</p>
 	</header>
 
 	<form
-		class="mb-6 flex gap-2"
+		class="surface mb-6 flex gap-2 rounded-2xl p-2"
 		onsubmit={(event) => {
 			event.preventDefault();
 			loadDeck();
@@ -119,11 +121,11 @@
 		<input
 			id="mood"
 			bind:value={mood}
-			class="min-w-0 flex-1 rounded-lg border border-white/15 bg-neutral-900/80 px-4 py-2.5 text-sm outline-none focus:border-red-400"
+			class="min-w-0 flex-1 rounded-none border border-transparent bg-transparent px-3 py-2.5 text-sm text-[#30231e] outline-none placeholder:text-[#5f5048]/60 focus:border-[#5f5048]/20"
 			placeholder="Funny sci-fi, cozy mystery…"
 		/>
 		<button
-			class="rounded-lg bg-red-700 px-4 text-sm font-semibold hover:bg-red-600"
+			class="ticket-cut bg-[#c44737] px-5 text-sm font-bold uppercase tracking-wide text-[#fff1d4] shadow-[3px_3px_0_#713144] transition hover:bg-red-500 disabled:opacity-40"
 			disabled={loading}
 		>
 			Deal
@@ -145,7 +147,7 @@
 			</div>
 		{:else if current}
 			<article
-				class="touch-none select-none overflow-hidden rounded-3xl border border-white/15 bg-neutral-900 shadow-2xl transition-transform"
+				class="touch-none select-none overflow-hidden rounded-3xl border border-white/15 bg-neutral-900 shadow-2xl shadow-black/40 transition-transform"
 				class:duration-200={!dragging}
 				style:transform={`translateX(${dragX}px) rotate(${dragX / 24}deg)`}
 				onpointerdown={pointerDown}
@@ -175,7 +177,7 @@
 				</div>
 				<div class="p-6">
 					<div class="flex items-baseline justify-between gap-4">
-						<h2 class="text-2xl font-bold">{current.Title}</h2>
+						<h2 class="text-2xl font-semibold tracking-[-0.02em]">{current.Title}</h2>
 						<span class="text-white/60">{current.Year}</span>
 					</div>
 					<p class="mt-1 text-sm text-red-200/80">

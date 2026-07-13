@@ -94,41 +94,81 @@
 </script>
 
 <div>
-	<section in:fade class="pt-4 pb-6">
-		<h1 class="text-center font-semibold tracking-tight text-4xl md:text-5xl leading-tight">
-			Search for movies <span class="text-red-400/90">with AI</span>
-		</h1>
-		<p class="text-center text-white/60 text-sm md:text-base mt-3 max-w-xl mx-auto">
-			Describe a plot, a mood, or a scene. Get a shortlist.
-		</p>
+	<section
+		in:fade
+		class="grid items-center gap-10 pb-14 pt-3 lg:grid-cols-[1.08fr_0.92fr] lg:gap-14 lg:pt-8"
+	>
+		<div>
+			<div class="mb-5 flex items-center gap-3">
+				<span class="h-px w-8 bg-red-400"></span>
+				<p class="eyebrow">A movie search engine for curious minds</p>
+			</div>
+			<h1
+				class="display-type max-w-2xl text-balance text-5xl font-bold leading-[0.94] tracking-[-0.055em] text-[#eee2c9] sm:text-7xl lg:text-[5.4rem]"
+			>
+				What are we <span class="relative whitespace-nowrap"
+					>watching?<span class="absolute -bottom-2 left-0 h-1 w-full -rotate-1 bg-red-500/75"
+					></span></span
+				>
+			</h1>
+			<p class="mt-6 max-w-lg text-sm leading-relaxed text-white/55 sm:text-base">
+				Describe the movie stuck in your head—or the one you wish existed. We’ll dig through the
+				shelves.
+			</p>
 
-		<div class="mt-6 flex flex-col gap-3">
-			<Textarea bind:value={query} {placeholder} />
+			<div class="surface mt-7 p-2 text-left sm:p-3">
+				<div
+					class="flex items-center justify-between border-b border-[#4e4038]/25 px-4 py-2 text-[0.62rem] font-bold uppercase tracking-[0.16em] text-[#5a4339]"
+				>
+					<span>Tell us what you’re looking for</span><span class="text-red-800/65">No. 002187</span
+					>
+				</div>
+				<Textarea bind:value={query} {placeholder} />
+			</div>
+			<div class="mt-5 flex gap-3">
+				<Button variant="primary" disabled={searching || !query.trim()} onclick={handleClick}>
+					{#if searching}
+						<Spinner size="sm" label="Searching" /><span>Searching…</span>
+					{:else}
+						<span>Find it</span><span aria-hidden="true">→</span>
+					{/if}
+				</Button>
+				<Button variant="secondary" disabled={proompting} onclick={getRandomPrompt}>
+					{#if proompting}
+						<Spinner size="sm" label="Generating prompt" /><span>Generating…</span>
+					{:else}
+						<span aria-hidden="true">◆</span><span>Roll the dice</span>
+					{/if}
+				</Button>
+			</div>
 		</div>
 
-		<div class="flex flex-row gap-3 justify-center mt-5">
-			<Button variant="primary" disabled={searching || !query.trim()} onclick={handleClick}>
-				{#if searching}
-					<Spinner size="sm" label="Searching" />
-					<span>Searching…</span>
-				{:else}
-					<span>Go</span>
-				{/if}
-			</Button>
-
-			<Button variant="secondary" disabled={proompting} onclick={getRandomPrompt}>
-				{#if proompting}
-					<Spinner size="sm" label="Generating prompt" />
-					<span>Generating…</span>
-				{:else}
-					<span>Random prompt</span>
-				{/if}
-			</Button>
+		<div class="relative mx-auto hidden w-full max-w-md lg:block" aria-hidden="true">
+			<div
+				class="absolute -left-5 top-12 z-10 -rotate-6 border-2 border-[#bc4058] bg-[#29141d] px-4 py-3 font-mono text-xs uppercase leading-relaxed tracking-wider text-[#dd6679] shadow-lg"
+			>
+				Late nights.<br />Good films.<br />Strange beauty.
+			</div>
+			<div
+				class="rotate-2 border-[10px] border-[#e7dac0] bg-[#e7dac0] p-1 shadow-[12px_14px_0_rgba(0,0,0,0.35)]"
+			>
+				<img
+					src="/mismash.png"
+					alt=""
+					class="aspect-[4/5] w-full object-cover object-center saturate-[0.8] contrast-110"
+				/>
+			</div>
+			<div
+				class="ticket-cut absolute -bottom-5 -right-5 rotate-3 bg-[#d58d26] px-5 py-3 text-center font-mono text-[0.65rem] font-bold uppercase leading-tight tracking-wider text-[#271910] shadow-lg"
+			>
+				Curated by humans<br />not algorithms
+			</div>
+			<div class="absolute -right-3 top-8 h-16 w-5 rotate-6 bg-amber-100/35"></div>
 		</div>
 	</section>
 
 	{#await promise}
-		<div class="grid md:grid-cols-2 gap-3">
+		<div class="grid gap-4 md:grid-cols-2">
 			{#each Array.from({ length: 20 }, (_, index) => index) as index}
 				<div class="contents" data-loading-card={index}>
 					<LoadingCard />
@@ -137,7 +177,14 @@
 		</div>
 	{:then data}
 		{#if data.titles && data.titles.length > 0}
-			<div class="grid md:grid-cols-2 gap-3">
+			<div class="mb-4 flex items-end justify-between border-b-2 border-amber-100/15 pb-4">
+				<div>
+					<p class="eyebrow mb-1">Now screening</p>
+					<h2 class="display-type text-2xl font-bold text-[#eee2c9]">Your shortlist</h2>
+				</div>
+				<p class="text-xs text-white/40">{Array.from(new Set(data.titles)).length} matches</p>
+			</div>
+			<div class="grid gap-4 md:grid-cols-2">
 				{#each Array.from(new Set(data.titles)) as title_id}
 					<div class="flex flex-col">
 						<MovieCard {title_id} />

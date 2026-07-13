@@ -10,12 +10,10 @@
 	let { children } = $props();
 </script>
 
-<div class="bg-pattern bg-repeat-y bg-cover justify-between">
-	<div class="backdrop-blur-md">
-		<div class="text-white md:max-w-4xl md:mx-auto px-5 min-h-screen flex flex-col">
-			<Navbar />
-			{@render children()}
-			<Footer />
-		</div>
+<div class="page-shell">
+	<div class="mx-auto flex min-h-screen max-w-5xl flex-col px-5 text-white sm:px-8">
+		<Navbar />
+		<main class="flex-1">{@render children()}</main>
+		<Footer />
 	</div>
 </div>
