@@ -12,6 +12,13 @@ No LangChain. No Pinecone. No Lambda.
 4. Semantic query is embedded and matched against a DuckDB VSS HNSW index.
 5. Results returned as IMDb title IDs; frontend fetches posters/metadata via OMDb.
 
+## Movie discovery
+
+`/discover` provides a mobile-first card deck for deciding what to watch. Enter a mood,
+plot, or genre, then swipe or use the pass/save controls. Saved movies remain in a local
+shortlist on that browser. The discovery page uses the same search and OMDb server routes,
+so API credentials are never exposed to the client.
+
 ## Environment variables
 
 ```bash
@@ -39,6 +46,16 @@ Works with any OpenAI-compatible provider for `LLM_*` — OpenAI, Gemini, local 
 ```bash
 npm install
 npm run dev
+```
+
+## Verification
+
+```bash
+npm run check
+npm run lint
+npm run test:unit -- --run
+npm test
+npm run build
 ```
 
 Backend: see [cinemattr-db](https://github.com/carteakey/cinemattr-db).
