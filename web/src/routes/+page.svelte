@@ -5,15 +5,25 @@
 	import Spinner from '../lib/components/Spinner.svelte';
 	import Button from '../lib/components/Button.svelte';
 	import { SSE } from 'sse.js';
-	export let query = '';
-	export let placeholder = 'A mind-bending thriller about dreams within dreams...';
 	import { fade } from 'svelte/transition';
 
 	/** @typedef {{ titles?: string[]; message?: string; error?: { message?: string; status?: number } }} SearchResponse */
+
+	let query = $state('');
+	let placeholder = $state('A mind-bending thriller about dreams within dreams...');
 	/** @type {Promise<SearchResponse>} */
-	let promise = Promise.resolve({});
-	let errorMessage = '';
-	let promptErrorMessage = '';
+	let promise = $state(Promise.resolve({}));
+	let errorMessage = $state('');
+	let promptErrorMessage = $state('');
+	let searching = $state(false);
+	let proompting = $state(false);
+
+	$effect(() => {
+		searching = true;
+		promise.then(() => {
+			searching = false;
+		});
+	});
 
 	async function getMovies() {
 		errorMessage = '';
@@ -21,42 +31,28 @@
 		const response = await fetch('/api/getResults', {
 			method: 'POST',
 			body: JSON.stringify({ query }),
-			headers: {
-				'content-type': 'application/json'
-			}
+			headers: { 'content-type': 'application/json' }
 		});
 
 		/** @type {SearchResponse} */
-		let results = await response.json();
+		const results = await response.json();
 		if (!response.ok) {
 			errorMessage = results?.error?.message ?? 'Error in getting results. Try again.';
-			return results;
 		}
 		return results;
 	}
 
-	async function handleClick() {
+	function handleClick() {
 		promise = getMovies();
 	}
 
-	let searching = false;
-	$: {
-		searching = true;
-		promise.then(() => {
-			searching = false;
-		});
-	}
-
-	let proompting = false;
 	async function getRandomPrompt() {
 		query = '';
 		proompting = true;
 		promptErrorMessage = '';
 		const source = new SSE('/api/getRandomPrompt', {
 			method: 'GET',
-			headers: {
-				'content-type': 'application/json'
-			}
+			headers: { 'content-type': 'application/json' }
 		});
 
 		function stopPrompting(message = '') {
@@ -81,7 +77,6 @@
 			}
 
 			const [{ delta } = { delta: {} }] = payload.choices ?? [];
-
 			if (delta.content) {
 				query = (query ?? '') + delta.content;
 			}
@@ -108,11 +103,11 @@
 		</p>
 
 		<div class="mt-6 flex flex-col gap-3">
-			<Textarea bind:value={query} bind:placeholder />
+			<Textarea bind:value={query} {placeholder} />
 		</div>
 
 		<div class="flex flex-row gap-3 justify-center mt-5">
-			<Button variant="primary" disabled={searching || !query.trim()} on:click={handleClick}>
+			<Button variant="primary" disabled={searching || !query.trim()} onclick={handleClick}>
 				{#if searching}
 					<Spinner size="sm" label="Searching" />
 					<span>Searching…</span>
@@ -121,7 +116,7 @@
 				{/if}
 			</Button>
 
-			<Button variant="secondary" disabled={proompting} on:click={getRandomPrompt}>
+			<Button variant="secondary" disabled={proompting} onclick={getRandomPrompt}>
 				{#if proompting}
 					<Spinner size="sm" label="Generating prompt" />
 					<span>Generating…</span>
@@ -134,8 +129,10 @@
 
 	{#await promise}
 		<div class="grid md:grid-cols-2 gap-3">
-			{#each { length: 20 } as _, i}
-				<LoadingCard />
+			{#each Array.from({ length: 20 }, (_, index) => index) as index}
+				<div class="contents" data-loading-card={index}>
+					<LoadingCard />
+				</div>
 			{/each}
 		</div>
 	{:then data}
@@ -180,7 +177,7 @@
 		{/if}
 
 		{#if !data.titles}
-			<div class="h-50" />
+			<div class="h-50"></div>
 		{/if}
 	{:catch error}
 		<p class="text-center text-base text-white/60 italic mt-8">{error.message}</p>

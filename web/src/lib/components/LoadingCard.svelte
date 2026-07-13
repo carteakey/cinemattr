@@ -13,12 +13,12 @@
 	</div>
 
 	<div class="flex-1 space-y-3">
-		<div class="h-3 w-32 rounded-full bg-white/10" />
-		<div class="h-2 w-48 rounded-full bg-white/10" />
-		<div class="h-2 w-52 rounded-full bg-white/10" />
-		<div class="h-2 w-48 rounded-full bg-white/10" />
+		<div class="h-3 w-32 rounded-full bg-white/10"></div>
+		<div class="h-2 w-48 rounded-full bg-white/10"></div>
+		<div class="h-2 w-52 rounded-full bg-white/10"></div>
+		<div class="h-2 w-48 rounded-full bg-white/10"></div>
 		<div class="pt-3">
-			<div class="h-2 w-40 rounded-full bg-white/10" />
+			<div class="h-2 w-40 rounded-full bg-white/10"></div>
 		</div>
 	</div>
 	<span class="sr-only">Loading</span>

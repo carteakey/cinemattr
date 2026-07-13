@@ -1,10 +1,8 @@
 <script>
-	/** @type {'sm' | 'md'} */
-	export let size = 'md';
-	/** @type {string} */
-	export let label = 'Loading';
+	/** @type {{ size?: 'sm' | 'md', label?: string }} */
+	let { size = 'md', label = 'Loading' } = $props();
 
-	$: sizeClass = size === 'sm' ? 'w-4 h-4' : 'w-5 h-5';
+	let sizeClass = $derived(size === 'sm' ? 'w-4 h-4' : 'w-5 h-5');
 </script>
 
 <svg

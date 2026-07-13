@@ -1,32 +1,25 @@
 <script>
 	import { fade } from 'svelte/transition';
-	/**
-	 * @type string
-	 */
-	export let title_id;
+
+	/** @type {{ title_id: string }} */
+	let { title_id } = $props();
 
 	async function getMovieInfo() {
 		try {
 			const response = await fetch('/api/getDetails', {
 				method: 'POST',
-				body: JSON.stringify({ title_id: title_id }),
-				headers: {
-					'content-type': 'application/json'
-				}
+				body: JSON.stringify({ title_id }),
+				headers: { 'content-type': 'application/json' }
 			});
 			const movieInfo = await response.json();
 
 			if (!response.ok || movieInfo?.error) {
-				return {
-					error: movieInfo?.error?.message ?? 'Unable to load movie details right now.'
-				};
+				return { error: movieInfo?.error?.message ?? 'Unable to load movie details right now.' };
 			}
 
 			return movieInfo;
 		} catch {
-			return {
-				error: 'Unable to load movie details right now.'
-			};
+			return { error: 'Unable to load movie details right now.' };
 		}
 	}
 
@@ -34,9 +27,7 @@
 </script>
 
 <div>
-	{#await promise}
-		<!-- LoadingCard renders at parent level -->
-	{:then data}
+	{#await promise then data}
 		{#if data.error}
 			<div
 				in:fade
@@ -53,22 +44,15 @@
 				<div
 					class="h-[220px] md:h-[240px] w-full md:w-[160px] flex-none rounded-lg bg-neutral-800 bg-center bg-cover shadow-inner"
 					style={`background-image: url(${data.Poster})`}
-				/>
+				></div>
 				<div class="flex flex-1 flex-col justify-between">
 					<div>
 						<div class="flex items-baseline justify-between gap-3">
-							<h3 class="font-semibold text-white text-base leading-snug">
-								{data.Title}
-							</h3>
+							<h3 class="font-semibold text-white text-base leading-snug">{data.Title}</h3>
 							<span class="font-medium text-white/50 text-sm tabular-nums">{data.Year}</span>
 						</div>
-						<div class="text-white/50 text-xs uppercase tracking-wide mt-1 mb-3">
-							{data.Genre}
-						</div>
-
-						<p class="text-white/85 text-sm leading-relaxed mb-3 line-clamp-4">
-							{data.Plot}
-						</p>
+						<div class="text-white/50 text-xs uppercase tracking-wide mt-1 mb-3">{data.Genre}</div>
+						<p class="text-white/85 text-sm leading-relaxed mb-3 line-clamp-4">{data.Plot}</p>
 						<p class="text-white/50 text-xs line-clamp-2">
 							<span class="text-white/40">Starring:</span>
 							{data.Actors}
@@ -83,7 +67,7 @@
 								★ {data.imdbRating}
 							</span>
 						{:else}
-							<span />
+							<span></span>
 						{/if}
 						<a
 							target="_blank"
