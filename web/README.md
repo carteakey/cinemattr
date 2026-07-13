@@ -26,6 +26,12 @@ so API credentials are never exposed to the client.
 SEARCH_API_URL=https://your-search-api.example.com
 
 # OpenAI-compatible LLM config (used by /api/getRandomPrompt)
+LOCAL_LLM_BASE_URL=http://kpc-cachy.llama-alnair.ts.net:8001/v1
+LOCAL_LLM_API_KEY=...
+LOCAL_LLM_MODEL=gemma-4-26b-qat-mtp
+LOCAL_LLM_TIMEOUT_MS=45000
+
+# Cloud fallback
 LLM_BASE_URL=https://api.openai.com/v1
 LLM_API_KEY=...
 LLM_MODEL=gpt-4.1-mini
