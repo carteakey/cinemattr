@@ -143,7 +143,7 @@
 			</div>
 		</div>
 
-		<div class="relative mx-auto hidden w-full max-w-md lg:block" aria-hidden="true">
+		<div class="film-still relative mx-auto hidden w-full max-w-md lg:block" aria-hidden="true">
 			<div
 				class="absolute -left-5 top-12 z-10 -rotate-6 border-2 border-[#bc4058] bg-[#29141d] px-4 py-3 font-mono text-xs uppercase leading-relaxed tracking-wider text-[#dd6679] shadow-lg"
 			>

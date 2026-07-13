@@ -44,18 +44,200 @@
 		min-height: 100vh;
 		overflow: hidden;
 		background:
-			radial-gradient(circle at 10% 8%, rgba(102, 35, 76, 0.3), transparent 30rem),
-			radial-gradient(circle at 90% 30%, rgba(155, 50, 31, 0.18), transparent 27rem),
-			linear-gradient(180deg, #130d14 0%, #0b090c 58%, #110a0f 100%);
+			radial-gradient(ellipse at 12% 5%, rgba(127, 45, 81, 0.38), transparent 34rem),
+			radial-gradient(ellipse at 88% 34%, rgba(181, 73, 33, 0.2), transparent 32rem),
+			radial-gradient(ellipse at 50% 105%, rgba(76, 32, 65, 0.3), transparent 42rem),
+			linear-gradient(145deg, #160e16 0%, #09080b 48%, #120a10 100%);
 	}
 	.page-shell::before {
 		content: '';
 		position: fixed;
-		inset: 0;
-		z-index: -1;
+		inset: -45%;
+		z-index: 30;
 		pointer-events: none;
-		opacity: 0.22;
+		opacity: 0.15;
 		background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.13'/%3E%3C/svg%3E");
+		mix-blend-mode: soft-light;
+		animation: grain-jitter 0.24s steps(2) infinite;
+	}
+	.page-shell::after {
+		content: '';
+		position: fixed;
+		inset: 0;
+		z-index: 29;
+		pointer-events: none;
+		background:
+			repeating-linear-gradient(
+				90deg,
+				transparent 0 17vw,
+				rgba(255, 238, 194, 0.018) 17.05vw,
+				transparent 17.12vw
+			),
+			radial-gradient(
+				ellipse at center,
+				transparent 35%,
+				rgba(2, 1, 3, 0.28) 78%,
+				rgba(2, 1, 3, 0.72) 120%
+			);
+		box-shadow: inset 0 0 12rem rgba(0, 0, 0, 0.52);
+	}
+	.cinema-atmosphere {
+		position: fixed;
+		inset: 0;
+		z-index: 0;
+		pointer-events: none;
+		overflow: hidden;
+	}
+	.projector-beam {
+		position: absolute;
+		top: -18rem;
+		left: 43%;
+		width: 44rem;
+		height: 68rem;
+		transform: rotate(18deg) skewX(-13deg);
+		transform-origin: top center;
+		background: linear-gradient(
+			105deg,
+			transparent 8%,
+			rgba(255, 225, 164, 0.045) 48%,
+			rgba(255, 220, 154, 0.1) 52%,
+			transparent 94%
+		);
+		filter: blur(18px);
+		opacity: 0.75;
+	}
+	.film-reel {
+		position: absolute;
+		width: 22rem;
+		aspect-ratio: 1;
+		border: 1px solid rgba(235, 204, 153, 0.08);
+		border-radius: 50%;
+		opacity: 0.2;
+		background:
+			radial-gradient(
+				circle,
+				transparent 0 9%,
+				rgba(224, 186, 131, 0.16) 9.5% 11%,
+				transparent 11.5%
+			),
+			radial-gradient(
+				circle at 50% 22%,
+				transparent 0 11%,
+				rgba(5, 4, 6, 0.82) 11.5% 18%,
+				transparent 18.5%
+			),
+			radial-gradient(
+				circle at 78% 50%,
+				transparent 0 11%,
+				rgba(5, 4, 6, 0.82) 11.5% 18%,
+				transparent 18.5%
+			),
+			radial-gradient(
+				circle at 50% 78%,
+				transparent 0 11%,
+				rgba(5, 4, 6, 0.82) 11.5% 18%,
+				transparent 18.5%
+			),
+			radial-gradient(
+				circle at 22% 50%,
+				transparent 0 11%,
+				rgba(5, 4, 6, 0.82) 11.5% 18%,
+				transparent 18.5%
+			),
+			radial-gradient(circle, rgba(192, 145, 92, 0.08) 0 66%, transparent 67%),
+			repeating-conic-gradient(from 5deg, rgba(232, 199, 150, 0.12) 0 2deg, transparent 2deg 24deg);
+		box-shadow:
+			inset 0 0 0 1.3rem rgba(221, 183, 129, 0.025),
+			0 0 6rem rgba(116, 47, 74, 0.2);
+		animation: reel-turn 38s linear infinite;
+	}
+	.film-reel-left {
+		left: -9rem;
+		top: 8rem;
+	}
+	.film-reel-right {
+		right: -12rem;
+		bottom: 1rem;
+		width: 28rem;
+		animation-direction: reverse;
+		animation-duration: 52s;
+	}
+	.film-strip {
+		position: absolute;
+		right: clamp(0.2rem, 2vw, 2rem);
+		top: -8rem;
+		width: 2.35rem;
+		height: calc(100% + 16rem);
+		opacity: 0.16;
+		transform: rotate(1.8deg);
+		border-inline: 1px solid rgba(238, 205, 153, 0.26);
+		background:
+			repeating-linear-gradient(
+					to bottom,
+					transparent 0 0.55rem,
+					rgba(238, 205, 153, 0.4) 0.58rem 1.15rem,
+					transparent 1.18rem 1.75rem
+				)
+				left 0.25rem top / 0.36rem 100% no-repeat,
+			repeating-linear-gradient(
+					to bottom,
+					transparent 0 0.55rem,
+					rgba(238, 205, 153, 0.4) 0.58rem 1.15rem,
+					transparent 1.18rem 1.75rem
+				)
+				right 0.25rem top / 0.36rem 100% no-repeat,
+			linear-gradient(90deg, transparent, rgba(237, 205, 159, 0.06), transparent);
+		filter: drop-shadow(0 0 0.8rem rgba(229, 175, 93, 0.14));
+	}
+	.dust-field {
+		position: absolute;
+		left: 18%;
+		top: 12%;
+		width: 2px;
+		height: 2px;
+		border-radius: 50%;
+		background: rgba(255, 232, 190, 0.35);
+		box-shadow:
+			8vw 17vh rgba(255, 232, 190, 0.3),
+			21vw 4vh rgba(255, 232, 190, 0.18),
+			37vw 36vh rgba(255, 232, 190, 0.32),
+			55vw 9vh rgba(255, 232, 190, 0.2),
+			68vw 52vh rgba(255, 232, 190, 0.28),
+			14vw 68vh rgba(255, 232, 190, 0.18),
+			46vw 79vh rgba(255, 232, 190, 0.25),
+			73vw 88vh rgba(255, 232, 190, 0.18),
+			3vw 41vh rgba(255, 232, 190, 0.26);
+		animation: dust-drift 9s ease-in-out infinite alternate;
+	}
+	.film-still::after {
+		content: '';
+		position: absolute;
+		inset: 1rem -0.75rem;
+		z-index: -1;
+		transform: rotate(-3deg);
+		border-block: 1px solid rgba(232, 196, 139, 0.24);
+		background:
+			repeating-linear-gradient(
+					90deg,
+					rgba(232, 196, 139, 0.22) 0 0.55rem,
+					transparent 0.55rem 1.15rem
+				)
+				top / auto 0.35rem no-repeat,
+			repeating-linear-gradient(
+					90deg,
+					rgba(232, 196, 139, 0.22) 0 0.55rem,
+					transparent 0.55rem 1.15rem
+				)
+				bottom / auto 0.35rem no-repeat;
+		opacity: 0.55;
+	}
+	.projected-card {
+		background-image:
+			linear-gradient(115deg, rgba(255, 226, 172, 0.035), transparent 38%),
+			linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 22%);
+		box-shadow:
+			0 2rem 5rem rgba(0, 0, 0, 0.52),
+			0 0 4rem rgba(118, 45, 72, 0.13);
 	}
 	.display-type {
 		font-family: Georgia, 'Times New Roman', serif;
@@ -83,6 +265,37 @@
 			0 calc(100% - 7px),
 			0 7px
 		);
+	}
+}
+
+@keyframes grain-jitter {
+	0% {
+		transform: translate3d(-2%, 1%, 0);
+	}
+	25% {
+		transform: translate3d(1%, -3%, 0);
+	}
+	50% {
+		transform: translate3d(3%, 2%, 0);
+	}
+	75% {
+		transform: translate3d(-3%, -1%, 0);
+	}
+	100% {
+		transform: translate3d(2%, 3%, 0);
+	}
+}
+
+@keyframes reel-turn {
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+@keyframes dust-drift {
+	to {
+		transform: translate3d(1.2rem, -1.8rem, 0);
+		opacity: 0.45;
 	}
 }
 

@@ -11,7 +11,14 @@
 </script>
 
 <div class="page-shell">
-	<div class="mx-auto flex min-h-screen max-w-5xl flex-col px-5 text-white sm:px-8">
+	<div class="cinema-atmosphere" aria-hidden="true">
+		<div class="projector-beam"></div>
+		<div class="film-reel film-reel-left"></div>
+		<div class="film-reel film-reel-right"></div>
+		<div class="film-strip"></div>
+		<div class="dust-field"></div>
+	</div>
+	<div class="relative z-10 mx-auto flex min-h-screen max-w-5xl flex-col px-5 text-white sm:px-8">
 		<Navbar />
 		<main class="flex-1">{@render children()}</main>
 		<Footer />

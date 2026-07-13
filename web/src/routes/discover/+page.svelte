@@ -147,7 +147,7 @@
 			</div>
 		{:else if current}
 			<article
-				class="touch-none select-none overflow-hidden rounded-3xl border border-white/15 bg-neutral-900 shadow-2xl shadow-black/40 transition-transform"
+				class="projected-card touch-none select-none overflow-hidden rounded-3xl border border-white/15 bg-neutral-900 shadow-2xl shadow-black/40 transition-transform"
 				class:duration-200={!dragging}
 				style:transform={`translateX(${dragX}px) rotate(${dragX / 24}deg)`}
 				onpointerdown={pointerDown}
