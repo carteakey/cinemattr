@@ -209,6 +209,53 @@
 			3vw 41vh rgba(255, 232, 190, 0.26);
 		animation: dust-drift 9s ease-in-out infinite alternate;
 	}
+	.film-metadata-rail {
+		position: absolute;
+		left: 0.8rem;
+		top: 7.5rem;
+		display: none;
+		width: 4.2rem;
+		border: 1px solid rgba(232, 216, 184, 0.18);
+		background: rgba(226, 211, 179, 0.055);
+		color: rgba(229, 214, 184, 0.48);
+		font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+		font-size: 0.52rem;
+		line-height: 1.35;
+		letter-spacing: 0.08em;
+		text-align: center;
+	}
+	.film-metadata-rail span {
+		display: block;
+		padding: 0.75rem 0.25rem;
+		border-bottom: 1px dashed rgba(232, 216, 184, 0.14);
+	}
+	.film-metadata-rail b {
+		font-size: 0.6rem;
+		font-weight: 500;
+		color: rgba(232, 177, 154, 0.72);
+	}
+	.action-ticket {
+		position: relative;
+		overflow: hidden;
+		padding-left: 3.6rem;
+	}
+	.action-ticket[data-ticket-code]::before {
+		content: attr(data-ticket-code);
+		position: absolute;
+		left: 0;
+		top: 0;
+		display: grid;
+		height: 100%;
+		width: 2.25rem;
+		place-items: center;
+		border-right: 1px dashed currentColor;
+		font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+		font-size: 0.58rem;
+		font-weight: 600;
+		letter-spacing: 0.05em;
+		opacity: 0.65;
+		writing-mode: vertical-rl;
+	}
 	.film-still::after {
 		content: '';
 		position: absolute;
@@ -265,6 +312,264 @@
 			0 calc(100% - 7px),
 			0 7px
 		);
+	}
+	.nav-tape {
+		position: relative;
+	}
+	.nav-tape::before {
+		content: '';
+		position: absolute;
+		inset: -0.22rem 12% auto;
+		height: 0.28rem;
+		background: rgba(236, 218, 182, 0.38);
+		transform: rotate(-1.5deg);
+	}
+	.cinema-workbench {
+		position: relative;
+	}
+	.hero-panel {
+		padding-top: clamp(0.5rem, 1.5vw, 1.25rem);
+	}
+	.notes-card {
+		position: relative;
+		max-width: 34rem;
+		transform: rotate(-1deg);
+	}
+	.notes-card::before,
+	.notes-card::after {
+		content: '';
+		position: absolute;
+		z-index: 2;
+		pointer-events: none;
+		background: rgba(209, 185, 139, 0.42);
+		box-shadow: 0 1px 0 rgba(0, 0, 0, 0.16);
+	}
+	.notes-card::before {
+		left: -1.2rem;
+		top: 0.9rem;
+		width: 2.3rem;
+		height: 4.2rem;
+		transform: rotate(5deg);
+	}
+	.notes-card::after {
+		right: 1.15rem;
+		top: -0.95rem;
+		width: 0.95rem;
+		height: 4.9rem;
+		border: 2px solid rgba(53, 43, 36, 0.55);
+		border-radius: 999px;
+		background: transparent;
+		transform: rotate(-5deg);
+	}
+	.contact-sheet {
+		filter: drop-shadow(0 2rem 2rem rgba(0, 0, 0, 0.42));
+	}
+	.filmstrip-grid {
+		position: absolute;
+		inset: 2.6rem 0 0;
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		grid-auto-rows: 10.5rem;
+		gap: 0.8rem;
+		padding: 1.45rem 1.2rem;
+		border-block: 1.55rem solid rgba(6, 5, 4, 0.92);
+		border-inline: 0.7rem solid rgba(6, 5, 4, 0.82);
+		background:
+			repeating-linear-gradient(90deg, #0b0806 0 0.58rem, transparent 0.58rem 1.1rem) top / auto
+				0.7rem repeat-x,
+			repeating-linear-gradient(90deg, #0b0806 0 0.58rem, transparent 0.58rem 1.1rem) bottom / auto
+				0.7rem repeat-x,
+			linear-gradient(180deg, rgba(245, 155, 33, 0.12), transparent 18%),
+			rgba(3, 3, 3, 0.68);
+		box-shadow:
+			inset 0 0 0 1px rgba(224, 143, 48, 0.22),
+			0 0 0 1px rgba(224, 143, 48, 0.16);
+		transform: rotate(1.4deg);
+	}
+	.filmstrip-frame {
+		position: relative;
+		overflow: hidden;
+		min-height: 0;
+		border: 1px solid rgba(211, 113, 21, 0.52);
+		background:
+			linear-gradient(180deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.18)),
+			url('/film-contact-sheet.png') var(--frame-position) / 300% 300% no-repeat;
+		filter: saturate(0.86) contrast(1.08);
+	}
+	.filmstrip-frame::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background:
+			linear-gradient(90deg, rgba(255, 90, 45, 0.15), transparent 34%, rgba(255, 230, 175, 0.08)),
+			radial-gradient(ellipse at center, transparent 45%, rgba(0, 0, 0, 0.28));
+		mix-blend-mode: screen;
+		opacity: 0.5;
+	}
+	.filmstrip-frame span {
+		position: absolute;
+		left: 50%;
+		bottom: -0.15rem;
+		z-index: 2;
+		transform: translateX(-50%);
+		font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+		font-size: 0.72rem;
+		font-weight: 700;
+		color: #df790e;
+		text-shadow: 0 1px 0 #000;
+	}
+	.filmstrip-frame.frame-wide {
+		grid-column: span 1;
+	}
+	.tape {
+		position: absolute;
+		z-index: 4;
+		background: rgba(190, 164, 116, 0.5);
+		box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+	}
+	.tape-one {
+		left: 1.2rem;
+		top: 1rem;
+		width: 7.2rem;
+		height: 1.9rem;
+		transform: rotate(-2deg);
+	}
+	.tape-two {
+		left: 16.2rem;
+		top: 0.6rem;
+		width: 4.8rem;
+		height: 1.7rem;
+		transform: rotate(-13deg);
+	}
+	.admit-stub {
+		position: absolute;
+		right: -0.35rem;
+		top: -0.1rem;
+		z-index: 5;
+		padding: 0.6rem 1rem;
+		rotate: 4deg;
+		background: #b64d4c;
+		color: #1e1112;
+		font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+		font-size: 0.78rem;
+		font-weight: 800;
+		line-height: 1.1;
+		letter-spacing: 0.11em;
+		text-align: center;
+		text-transform: uppercase;
+	}
+	.reel-note {
+		position: absolute;
+		right: -1.1rem;
+		top: 12.2rem;
+		z-index: 5;
+		padding: 1.5rem 0.65rem;
+		background: rgba(214, 197, 161, 0.8);
+		color: #1e1714;
+		font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+		font-size: 0.68rem;
+		font-weight: 700;
+		line-height: 1.5;
+		text-transform: uppercase;
+		writing-mode: vertical-rl;
+		transform: rotate(4deg);
+	}
+	.screening-shelf {
+		position: relative;
+		border: 1px solid rgba(238, 226, 201, 0.13);
+		padding: 1rem 1rem 1.1rem;
+		background: rgba(8, 7, 7, 0.26);
+	}
+	.screening-track {
+		display: grid;
+		grid-auto-columns: minmax(12.8rem, 1fr);
+		grid-auto-flow: column;
+		gap: 0.9rem;
+		overflow-x: auto;
+		padding-bottom: 0.2rem;
+		scroll-snap-type: x mandatory;
+	}
+	.screening-card {
+		display: flex;
+		min-width: 0;
+		scroll-snap-align: start;
+		flex-direction: column;
+		overflow: hidden;
+		border: 2px solid rgba(229, 214, 184, 0.56);
+		background: #d8c7a7;
+		color: #1f1713;
+		text-decoration: none;
+		box-shadow: 5px 6px 0 rgba(0, 0, 0, 0.24);
+		transition:
+			transform 180ms ease,
+			border-color 180ms ease,
+			box-shadow 180ms ease;
+	}
+	.screening-card:hover {
+		transform: translateY(-0.12rem);
+		border-color: rgba(244, 226, 190, 0.86);
+		box-shadow: 6px 8px 0 rgba(0, 0, 0, 0.28);
+	}
+	.screening-still {
+		aspect-ratio: 16 / 9;
+		border-bottom: 1px solid rgba(44, 30, 22, 0.32);
+		background:
+			linear-gradient(180deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.12)),
+			url('/film-contact-sheet.png') var(--still-position) / 300% 300% no-repeat;
+		filter: saturate(0.86) contrast(1.08);
+	}
+	.screening-copy {
+		padding: 0.75rem 0.85rem 0.7rem;
+		font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+	}
+	.screening-copy h2 {
+		margin: 0;
+		font-family: Georgia, 'Times New Roman', serif;
+		font-size: 1rem;
+		line-height: 1.1;
+		color: #17100d;
+	}
+	.screening-meta,
+	.screening-desc {
+		margin: 0;
+	}
+	.screening-meta {
+		margin-top: 0.32rem;
+		font-size: 0.62rem;
+		font-weight: 700;
+		color: rgba(31, 23, 19, 0.76);
+	}
+	.screening-desc {
+		margin-top: 0.46rem;
+		min-height: 2.35rem;
+		font-size: 0.68rem;
+		line-height: 1.45;
+	}
+	.screening-foot {
+		margin-top: 0.55rem;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 0.75rem;
+		font-size: 0.58rem;
+		font-weight: 700;
+		text-transform: uppercase;
+	}
+	.swatches {
+		display: flex;
+		gap: 0.2rem;
+	}
+	.swatches span {
+		width: 0.48rem;
+		aspect-ratio: 1;
+		border-radius: 999px;
+		border: 1px solid rgba(0, 0, 0, 0.25);
+	}
+}
+
+@media (min-width: 1280px) {
+	.film-metadata-rail {
+		display: block;
 	}
 }
 

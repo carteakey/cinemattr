@@ -17,6 +17,77 @@
 	let promptErrorMessage = $state('');
 	let searching = $state(false);
 	let proompting = $state(false);
+	const characterLimit = 400;
+	const queryLength = $derived(query.length);
+
+	const filmFrames = [
+		{ label: '7A', className: 'frame-wide', position: '0% 0%' },
+		{ label: '8A', className: 'frame-wide', position: '50% 0%' },
+		{ label: '9A', className: '', position: '100% 0%' },
+		{ label: '10', className: '', position: '0% 50%' },
+		{ label: '8A', className: 'frame-wide', position: '50% 50%' },
+		{ label: '9A', className: '', position: '100% 50%' },
+		{ label: '10', className: '', position: '0% 100%' },
+		{ label: '11A', className: 'frame-wide', position: '50% 100%' },
+		{ label: '12A', className: '', position: '100% 100%' }
+	];
+
+	const nowScreening = [
+		{
+			title: 'In the Mood for Love',
+			imdbID: 'tt0118694',
+			meta: '2000 · Romance · 1h 38m',
+			description: 'Neighbors in 1960s Hong Kong orbit love, restraint, and suspicion.',
+			tag: 'Longing',
+			position: '0% 50%',
+			swatches: ['#b11d32', '#17202c', '#d3a757', '#0b3c33']
+		},
+		{
+			title: 'Mulholland Drive',
+			imdbID: 'tt0166924',
+			meta: '2001 · Mystery · 2h 27m',
+			description: 'A Hollywood dream folds into identity, dread, and obsession.',
+			tag: 'Dreamlike',
+			position: '50% 50%',
+			swatches: ['#a74522', '#24364a', '#071616', '#c2a15b']
+		},
+		{
+			title: 'Moon',
+			imdbID: 'tt1182345',
+			meta: '2009 · Sci-Fi · 1h 37m',
+			description: 'A lone lunar worker nears the end of a very strange contract.',
+			tag: 'Isolated',
+			position: '100% 0%',
+			swatches: ['#7e1f3b', '#1e2a37', '#d6c08c', '#101b18']
+		},
+		{
+			title: 'Before Sunrise',
+			imdbID: 'tt0112471',
+			meta: '1995 · Romance · 1h 41m',
+			description: 'Two strangers spend one night walking, talking, and almost missing it.',
+			tag: 'Tender',
+			position: '50% 100%',
+			swatches: ['#9b2e24', '#16253a', '#c8a25d', '#12352d']
+		},
+		{
+			title: 'The Handmaiden',
+			imdbID: 'tt4016934',
+			meta: '2016 · Thriller · 2h 25m',
+			description: 'A con game becomes desire, revenge, and exquisite misdirection.',
+			tag: 'Lush',
+			position: '50% 50%',
+			swatches: ['#8f1724', '#1a2531', '#d9b56b', '#142d21']
+		},
+		{
+			title: 'Cure',
+			imdbID: 'tt0123948',
+			meta: '1997 · Horror · 1h 51m',
+			description: 'A detective follows murders that feel less solved than transmitted.',
+			tag: 'Unsettling',
+			position: '100% 50%',
+			swatches: ['#a44b1f', '#15263a', '#d3b26f', '#111f1a']
+		}
+	];
 
 	$effect(() => {
 		searching = true;
@@ -93,47 +164,57 @@
 	}
 </script>
 
-<div>
+<div class="cinema-workbench">
 	<section
 		in:fade
-		class="grid items-center gap-10 pb-14 pt-3 lg:grid-cols-[1.08fr_0.92fr] lg:gap-14 lg:pt-8"
+		class="relative grid items-start gap-10 pb-8 pt-1 lg:grid-cols-[minmax(29rem,0.86fr)_minmax(36rem,1.14fr)] lg:gap-10 xl:pb-10"
 	>
-		<div>
+		<div class="hero-panel relative z-10">
 			<div class="mb-5 flex items-center gap-3">
 				<span class="h-px w-8 bg-red-400"></span>
-				<p class="eyebrow">A movie search engine for curious minds</p>
+				<p class="eyebrow">A natural-language movie search engine</p>
 			</div>
 			<h1
-				class="display-type max-w-2xl text-balance text-5xl font-bold leading-[0.94] tracking-[-0.055em] text-[#eee2c9] sm:text-7xl lg:text-[5.4rem]"
+				class="display-type max-w-2xl text-balance text-5xl font-bold leading-[0.94] tracking-normal text-[#eee2c9] sm:text-7xl lg:text-[5.6rem] xl:text-[6.55rem]"
 			>
 				What are we <span class="relative whitespace-nowrap"
 					>watching?<span class="absolute -bottom-2 left-0 h-1 w-full -rotate-1 bg-red-500/75"
 					></span></span
 				>
 			</h1>
-			<p class="mt-6 max-w-lg text-sm leading-relaxed text-white/55 sm:text-base">
-				Describe the movie stuck in your head—or the one you wish existed. We’ll dig through the
-				shelves.
+			<p class="mt-6 max-w-lg font-mono text-sm leading-relaxed text-[#eee2c9]/78 sm:text-base">
+				Describe the movie stuck in your head, or the one you wish existed.
 			</p>
 
-			<div class="surface mt-7 p-2 text-left sm:p-3">
+			<div class="surface notes-card mt-7 p-2 text-left sm:p-3">
 				<div
-					class="flex items-center justify-between border-b border-[#4e4038]/25 px-4 py-2 text-[0.62rem] font-bold uppercase tracking-[0.16em] text-[#5a4339]"
+					class="flex items-center justify-between border-b border-[#4e4038]/25 px-4 py-2 font-mono text-[0.62rem] font-bold uppercase tracking-[0.16em] text-[#5a4339]"
 				>
-					<span>Tell us what you’re looking for</span><span class="text-red-800/65">No. 002187</span
+					<span>Scene / Notes</span><span class="text-red-800/65"
+						>{queryLength}/{characterLimit}</span
 					>
 				</div>
-				<Textarea bind:value={query} {placeholder} />
+				<Textarea bind:value={query} {placeholder} maxlength={characterLimit} />
 			</div>
-			<div class="mt-5 flex gap-3">
-				<Button variant="primary" disabled={searching || !query.trim()} onclick={handleClick}>
+			<div class="mt-5 flex flex-col gap-3 min-[440px]:flex-row">
+				<Button
+					variant="primary"
+					ticketCode="011320"
+					disabled={searching || !query.trim()}
+					onclick={handleClick}
+				>
 					{#if searching}
 						<Spinner size="sm" label="Searching" /><span>Searching…</span>
 					{:else}
 						<span>Find it</span><span aria-hidden="true">→</span>
 					{/if}
 				</Button>
-				<Button variant="secondary" disabled={proompting} onclick={getRandomPrompt}>
+				<Button
+					variant="secondary"
+					ticketCode="81764"
+					disabled={proompting}
+					onclick={getRandomPrompt}
+				>
 					{#if proompting}
 						<Spinner size="sm" label="Generating prompt" /><span>Generating…</span>
 					{:else}
@@ -141,56 +222,80 @@
 					{/if}
 				</Button>
 			</div>
+			<div
+				class="mt-5 flex flex-wrap items-center gap-3 font-mono text-[0.62rem] uppercase tracking-[0.14em]"
+			>
+				<span class="border-b border-amber-300/50 pb-1 text-amber-200/70"
+					>Search by feeling, not filters</span
+				>
+				<span class="border border-red-400/35 px-2 py-1 text-red-300/70"
+					>AI-assisted semantic search</span
+				>
+			</div>
 		</div>
 
-		<div class="film-still relative mx-auto hidden w-full max-w-md lg:block" aria-hidden="true">
+		<div class="contact-sheet relative hidden min-h-[35rem] lg:block" aria-hidden="true">
 			<div
-				class="absolute -left-5 top-12 z-10 -rotate-6 border-2 border-[#bc4058] bg-[#29141d] px-4 py-3 font-mono text-xs uppercase leading-relaxed tracking-wider text-[#dd6679] shadow-lg"
+				class="absolute left-[7%] top-1 font-mono text-[0.58rem] uppercase tracking-[0.16em] text-[#d16f20]"
 			>
-				Late nights.<br />Good films.<br />Strange beauty.
+				Kodak Portra 400
 			</div>
-			<div
-				class="rotate-2 border-[10px] border-[#e7dac0] bg-[#e7dac0] p-1 shadow-[12px_14px_0_rgba(0,0,0,0.35)]"
-			>
-				<img
-					src="/mismash.png"
-					alt=""
-					class="aspect-[4/5] w-full object-cover object-center saturate-[0.8] contrast-110"
-				/>
+			<div class="filmstrip-grid">
+				{#each filmFrames as frame}
+					<div
+						class={`filmstrip-frame ${frame.className}`}
+						style={`--frame-position: ${frame.position}`}
+					>
+						<span>{frame.label}</span>
+					</div>
+				{/each}
 			</div>
-			<div
-				class="ticket-cut absolute -bottom-5 -right-5 rotate-3 bg-[#d58d26] px-5 py-3 text-center font-mono text-[0.65rem] font-bold uppercase leading-tight tracking-wider text-[#271910] shadow-lg"
-			>
-				Curated by humans<br />not algorithms
-			</div>
-			<div class="absolute -right-3 top-8 h-16 w-5 rotate-6 bg-amber-100/35"></div>
+			<div class="tape tape-one"></div>
+			<div class="tape tape-two"></div>
+			<div class="ticket-cut admit-stub">Admit<br />One</div>
+			<div class="reel-note">Check changeover<br />reel 3</div>
 		</div>
 	</section>
 
 	{#await promise}
-		<div class="grid gap-4 md:grid-cols-2">
-			{#each Array.from({ length: 20 }, (_, index) => index) as index}
-				<div class="contents" data-loading-card={index}>
-					<LoadingCard />
+		<section class="screening-shelf mb-8">
+			<div class="mb-3 flex items-end justify-between gap-4 border-b border-amber-100/20 pb-2">
+				<div class="flex items-center gap-3">
+					<p class="font-mono text-sm uppercase tracking-[0.14em] text-[#eee2c9]">Threading Reel</p>
+					<span class="hidden h-px w-24 bg-amber-100/20 sm:block"></span>
 				</div>
-			{/each}
-		</div>
-	{:then data}
-		{#if data.titles && data.titles.length > 0}
-			<div class="mb-4 flex items-end justify-between border-b-2 border-amber-100/15 pb-4">
-				<div>
-					<p class="eyebrow mb-1">Now screening</p>
-					<h2 class="display-type text-2xl font-bold text-[#eee2c9]">Your shortlist</h2>
-				</div>
-				<p class="text-xs text-white/40">{Array.from(new Set(data.titles)).length} matches</p>
+				<p class="font-mono text-xs uppercase tracking-[0.16em] text-red-300/75">Searching...</p>
 			</div>
 			<div class="grid gap-4 md:grid-cols-2">
-				{#each Array.from(new Set(data.titles)) as title_id}
-					<div class="flex flex-col">
-						<MovieCard {title_id} />
+				{#each Array.from({ length: 6 }, (_, index) => index) as index}
+					<div class="contents" data-loading-card={index}>
+						<LoadingCard />
 					</div>
 				{/each}
 			</div>
+		</section>
+	{:then data}
+		{#if data.titles && data.titles.length > 0}
+			<section class="screening-shelf mb-8">
+				<div class="mb-4 flex items-end justify-between border-b border-amber-100/20 pb-3">
+					<div>
+						<p class="font-mono text-sm uppercase tracking-[0.14em] text-[#eee2c9]">
+							Now Screening
+						</p>
+						<h2 class="display-type mt-1 text-2xl font-bold text-[#eee2c9]">Search results</h2>
+					</div>
+					<p class="font-mono text-xs uppercase tracking-[0.16em] text-red-300/75">
+						{Array.from(new Set(data.titles)).length} matches
+					</p>
+				</div>
+				<div class="grid gap-4 md:grid-cols-2">
+					{#each Array.from(new Set(data.titles)) as title_id}
+						<div class="flex flex-col">
+							<MovieCard {title_id} />
+						</div>
+					{/each}
+				</div>
+			</section>
 		{/if}
 
 		{#if data.titles && data.titles.length === 0}
@@ -224,7 +329,47 @@
 		{/if}
 
 		{#if !data.titles}
-			<div class="h-50"></div>
+			<section class="screening-shelf mb-8">
+				<div class="mb-3 flex items-end justify-between gap-4 border-b border-amber-100/20 pb-2">
+					<div class="flex items-center gap-3">
+						<p class="font-mono text-sm uppercase tracking-[0.14em] text-[#eee2c9]">
+							Now Screening
+						</p>
+						<span class="hidden h-px w-24 bg-amber-100/20 sm:block"></span>
+					</div>
+					<a
+						href="/discover"
+						class="font-mono text-xs uppercase tracking-[0.16em] text-red-300/75 transition hover:text-red-200"
+						>Discover →</a
+					>
+				</div>
+				<div class="screening-track">
+					{#each nowScreening as movie}
+						<a
+							class="screening-card"
+							href={`https://www.imdb.com/title/${movie.imdbID}`}
+							target="_blank"
+							rel="noreferrer"
+							aria-label={`Open ${movie.title} on IMDb`}
+						>
+							<div class="screening-still" style={`--still-position: ${movie.position}`}></div>
+							<div class="screening-copy">
+								<h2>{movie.title}</h2>
+								<p class="screening-meta">{movie.meta}</p>
+								<p class="screening-desc">{movie.description}</p>
+								<div class="screening-foot">
+									<div class="swatches" aria-hidden="true">
+										{#each movie.swatches as swatch}
+											<span style={`background: ${swatch}`}></span>
+										{/each}
+									</div>
+									<span>{movie.tag}</span>
+								</div>
+							</div>
+						</a>
+					{/each}
+				</div>
+			</section>
 		{/if}
 	{:catch error}
 		<p class="text-center text-base text-white/60 italic mt-8">{error.message}</p>
