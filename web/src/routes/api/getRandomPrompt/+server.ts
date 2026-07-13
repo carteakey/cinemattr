@@ -1,67 +1,48 @@
 import { env } from '$env/dynamic/private';
-import type { CreateChatCompletionRequest, ChatCompletionRequestMessage } from 'openai';
-import { getTokens } from '$lib/tokenizer';
-import { json } from '@sveltejs/kit';
+import { json, type RequestHandler } from '@sveltejs/kit';
 
-export const GET = async () => {
+export const GET: RequestHandler = async ({ fetch }) => {
+	const apiKey = (env.LLM_API_KEY ?? env.OPENAI_API_KEY)?.trim();
+	const baseUrl = (env.LLM_BASE_URL ?? 'https://api.openai.com/v1').replace(/\/$/, '');
+	if (!apiKey) {
+		return json(
+			{ error: { message: 'Prompt generation is unavailable.', status: 503 } },
+			{ status: 503 }
+		);
+	}
+
 	try {
-		const llmApiKey = env.LLM_API_KEY ?? env.OPENAI_API_KEY;
-		const llmBaseUrl = env.LLM_BASE_URL ?? 'https://api.openai.com/v1';
-		const llmModel = env.LLM_MODEL ?? 'gpt-4.1-mini';
-
-		if (!llmApiKey && llmBaseUrl.includes('openai.com')) {
-			throw new Error('LLM_API_KEY or OPENAI_API_KEY env variable not set');
-		}
-
-		const prompt = `Provide a random searching string for a movie searching app which finds a movie based on plot. 
-        Do not provide anything else but the prompt. Use very specific and random examples that have real answers. Do not use quotes.`;
-
-		let tokenCount = 0;
-		tokenCount += getTokens(prompt);
-		// console.log(tokenCount);
-
-		if (tokenCount >= 4000) {
-			throw new Error('Query too large');
-		}
-
-		const messages: ChatCompletionRequestMessage[] = [{ role: 'system', content: prompt }];
-
-		const chatRequestOpts: CreateChatCompletionRequest = {
-			model: llmModel,
-			messages,
-			temperature: 0.9,
-			stream: true
-		};
-
-		const headers: Record<string, string> = {
-			'Content-Type': 'application/json'
-		};
-		if (llmApiKey) {
-			headers.Authorization = `Bearer ${llmApiKey}`;
-		}
-
-		const chatResponse = await fetch(`${llmBaseUrl.replace(/\/$/, '')}/chat/completions`, {
-			headers,
+		const response = await fetch(`${baseUrl}/chat/completions`, {
 			method: 'POST',
-			body: JSON.stringify(chatRequestOpts)
+			headers: { 'content-type': 'application/json', authorization: `Bearer ${apiKey}` },
+			body: JSON.stringify({
+				model: env.LLM_MODEL ?? 'gpt-4.1-mini',
+				messages: [
+					{
+						role: 'system',
+						content:
+							'Write one specific, concise movie-search prompt based on plot, mood, or scene. Return only the prompt without quotes.'
+					}
+				],
+				temperature: 0.9,
+				stream: true
+			}),
+			signal: AbortSignal.timeout(15_000)
 		});
-
-		if (!chatResponse.ok) {
-			try {
-				const err = await chatResponse.json();
-				throw new Error(err?.error?.message ?? chatResponse.statusText);
-			} catch {
-				throw new Error(chatResponse.statusText || 'Request failed');
-			}
+		if (!response.ok || !response.body) {
+			return json(
+				{ error: { message: 'Prompt generation is unavailable.', status: 502 } },
+				{ status: 502 }
+			);
 		}
-
-		return new Response(chatResponse.body, {
-			headers: {
-				'Content-Type': 'text/event-stream'
-			}
+		return new Response(response.body, {
+			headers: { 'content-type': 'text/event-stream', 'cache-control': 'no-cache' }
 		});
-	} catch (err) {
-		console.error(err);
-		return json({ error: 'There was an error processing your request' }, { status: 500 });
+	} catch (error) {
+		console.error('Prompt generation failed', error);
+		return json(
+			{ error: { message: 'Prompt generation is unavailable.', status: 502 } },
+			{ status: 502 }
+		);
 	}
 };
