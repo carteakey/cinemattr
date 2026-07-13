@@ -16,6 +16,11 @@
 			</a>
 			<div class="flex items-center gap-1">
 				<a
+					href="/discover"
+					class="px-3 py-1.5 rounded-md text-sm font-medium text-white/70 hover:text-white hover:bg-white/10 transition"
+					>Discover</a
+				>
+				<a
 					href="/faq"
 					class="px-3 py-1.5 rounded-md text-sm font-medium text-white/70 hover:text-white hover:bg-white/10 transition"
 					>FAQ</a
