@@ -10,14 +10,15 @@ No LangChain. No Pinecone. No Lambda.
 2. Frontend calls the search API (`SEARCH_API_URL/search`).
 3. API parses query into structured filters + semantic query via one LLM call.
 4. Semantic query is embedded and matched against a DuckDB VSS HNSW index.
-5. Results returned as IMDb title IDs; frontend fetches posters/metadata via OMDb.
+5. Results returned as IMDb title IDs; server-side routes use OMDb when configured and
+   fall back to metadata from the FastAPI service.
 
 ## Movie discovery
 
 `/discover` provides a mobile-first card deck for deciding what to watch. Enter a mood,
 plot, or genre, then swipe or use the pass/save controls. Saved movies remain in a local
-shortlist on that browser. The discovery page uses the same search and OMDb server routes,
-so API credentials are never exposed to the client.
+shortlist on that browser. The discovery page uses the same search and server-side movie
+details routes, so API credentials are never exposed to the client.
 
 ## Environment variables
 
@@ -45,7 +46,11 @@ SEARCH_API_RETRY_DELAY_MS=1000
 SEARCH_API_TIMEOUT_MS=60000
 ```
 
-Works with any OpenAI-compatible provider for `LLM_*` — OpenAI, Gemini, local models.
+Works with any OpenAI-compatible provider for `LLM_*` — OpenAI, Gemini, and local models.
+
+Movie metadata starts from IMDb title IDs and uses OMDb when its server-side key is available;
+the FastAPI backend supplies a local metadata fallback. Plot coverage depends on the current
+backend corpus and enrichment state, so it is not complete by default.
 
 ## Local development
 
