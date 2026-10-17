@@ -567,6 +567,894 @@
 	}
 }
 
+@layer components {
+	.discover-page {
+		position: relative;
+	}
+	.discover-grid {
+		display: grid;
+		gap: 1.4rem;
+	}
+	.discover-intro {
+		padding-inline: 0.25rem;
+	}
+	.discover-brief {
+		position: relative;
+		min-height: 30rem;
+		padding: 1.35rem 1.25rem 1.1rem;
+		transform: rotate(-0.6deg);
+		background-color: #d9c8a5;
+		background-image:
+			linear-gradient(rgba(80, 50, 35, 0.045) 1px, transparent 1px),
+			linear-gradient(90deg, rgba(110, 67, 43, 0.025) 1px, transparent 1px),
+			url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)' opacity='.12'/%3E%3C/svg%3E");
+		background-size:
+			100% 2rem,
+			3.5rem 100%,
+			180px 180px;
+		box-shadow:
+			0.45rem 0.55rem 0 rgba(103, 35, 55, 0.48),
+			0 1.5rem 2rem rgba(0, 0, 0, 0.14);
+	}
+	.discover-brief::before,
+	.discover-brief::after {
+		content: '';
+		position: absolute;
+		z-index: 4;
+		pointer-events: none;
+		background: rgba(185, 153, 100, 0.62);
+		box-shadow: 0 1px 0 rgba(32, 22, 18, 0.16);
+	}
+	.discover-brief::before {
+		top: -0.7rem;
+		left: 1.7rem;
+		width: 6.8rem;
+		height: 1.5rem;
+		transform: rotate(-2deg);
+	}
+	.discover-brief::after {
+		right: -0.45rem;
+		bottom: 1.1rem;
+		width: 4.4rem;
+		height: 1.3rem;
+		transform: rotate(8deg);
+	}
+	.discover-paper-heading,
+	.discover-brief-label,
+	.discover-shortcuts,
+	.discover-mood-input,
+	.discover-deal-button,
+	.discover-rail,
+	.discover-queue {
+		font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+	}
+	.discover-paper-heading {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		border-bottom: 2px solid rgba(101, 58, 45, 0.28);
+		padding-bottom: 0.65rem;
+		color: #8f2528;
+		font-size: 0.8rem;
+		font-weight: 800;
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
+	}
+	.discover-brief-label {
+		color: #4d382f;
+		font-size: 0.76rem;
+		font-weight: 700;
+		letter-spacing: 0.04em;
+	}
+	.discover-mood-input {
+		display: block;
+		width: 100%;
+		min-height: 8rem;
+		resize: vertical;
+		border: 1px solid rgba(70, 43, 31, 0.58);
+		border-radius: 0.25rem;
+		background: rgba(239, 224, 191, 0.2);
+		padding: 0.8rem 0.7rem;
+		color: #30231d;
+		font-family: Georgia, 'Times New Roman', serif;
+		font-size: 1.08rem;
+		line-height: 1.35;
+		outline: none;
+		box-shadow: inset 0 0 0 1px rgba(255, 247, 218, 0.12);
+	}
+	.discover-mood-input::placeholder {
+		color: rgba(74, 52, 40, 0.72);
+	}
+	.discover-mood-input:focus {
+		border-color: #8f2528;
+		box-shadow: 0 0 0 2px rgba(143, 37, 40, 0.16);
+	}
+	.discover-deal-button {
+		display: flex;
+		min-height: 3.8rem;
+		align-items: center;
+		justify-content: center;
+		gap: 0.55rem;
+		border: 1px solid #612d25;
+		background: #bf654d;
+		color: #2e1715;
+		font-size: 1.18rem;
+		font-weight: 800;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		box-shadow: 3px 4px 0 rgba(71, 30, 43, 0.72);
+		transition:
+			transform 160ms ease,
+			filter 160ms ease;
+	}
+	.discover-deal-button:hover:not(:disabled) {
+		filter: brightness(1.08);
+		transform: translateY(-2px);
+	}
+	.discover-deal-button:disabled {
+		cursor: wait;
+		opacity: 0.72;
+	}
+	.discover-shortcuts {
+		display: grid;
+		gap: 0.18rem;
+		color: #43352f;
+		font-size: 0.68rem;
+		line-height: 1.35;
+	}
+	.discover-shortcuts div {
+		display: grid;
+		grid-template-columns: 1.5rem 1fr;
+		align-items: center;
+	}
+	.discover-shortcuts b {
+		font-size: 1.05rem;
+		font-weight: 500;
+	}
+	.discover-scribble {
+		position: absolute;
+		right: 1.3rem;
+		bottom: 0.9rem;
+		rotate: -8deg;
+		color: rgba(38, 76, 119, 0.72);
+		font-family: Georgia, 'Times New Roman', serif;
+		font-size: 2.5rem;
+		font-style: italic;
+		font-weight: 700;
+		letter-spacing: -0.08em;
+	}
+	.discover-deck-column {
+		min-width: 0;
+	}
+	.discover-card-wrap {
+		position: relative;
+		min-height: 30rem;
+		padding: 0.55rem 0.25rem 0.4rem;
+	}
+	.deck-card-back {
+		position: absolute;
+		inset: 0.9rem 0.25rem 0.15rem;
+		border: 1px solid rgba(69, 48, 35, 0.5);
+		background: #b9a47e;
+		box-shadow: 0.35rem 0.45rem 0 rgba(0, 0, 0, 0.24);
+	}
+	.deck-card-back::after {
+		content: '';
+		position: absolute;
+		inset: 0.55rem;
+		border: 1px dashed rgba(75, 46, 35, 0.3);
+	}
+	.deck-card-back-far {
+		transform: translate(0.75rem, 0.25rem) rotate(2.4deg);
+		opacity: 0.6;
+	}
+	.deck-card-back-near {
+		transform: translate(0.4rem, 0.1rem) rotate(1deg);
+		opacity: 0.86;
+	}
+	.discover-card {
+		position: relative;
+		z-index: 3;
+		min-height: 29.8rem;
+		border: 1px solid rgba(67, 46, 34, 0.7);
+		background-color: #e0cfad;
+		background-image:
+			linear-gradient(90deg, rgba(100, 65, 38, 0.035) 1px, transparent 1px),
+			url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)' opacity='.1'/%3E%3C/svg%3E");
+		background-size:
+			4.6rem 100%,
+			180px 180px;
+		color: #2e211b;
+		box-shadow:
+			0 1.6rem 2.5rem rgba(0, 0, 0, 0.37),
+			0.3rem 0.35rem 0 rgba(94, 40, 46, 0.34);
+		transition: transform 220ms ease;
+	}
+	.discover-current-card {
+		cursor: grab;
+		will-change: transform;
+	}
+	.discover-current-card:active,
+	.discover-card-dragging {
+		cursor: grabbing;
+	}
+	.discover-card-dragging {
+		transition: none;
+	}
+	.discover-card-topline {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 0.9rem 1.15rem 0.55rem;
+		color: #8f2528;
+		font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+		font-size: 0.67rem;
+		font-weight: 800;
+		letter-spacing: 0.13em;
+		text-transform: uppercase;
+	}
+	.discover-card-topline > span:first-child {
+		border-bottom: 1px solid rgba(143, 37, 40, 0.68);
+		padding-bottom: 0.24rem;
+	}
+	.discover-holes {
+		display: flex;
+		gap: 0.38rem;
+	}
+	.discover-holes i {
+		display: block;
+		width: 0.68rem;
+		aspect-ratio: 1;
+		border: 1px solid rgba(36, 25, 20, 0.8);
+		border-radius: 50%;
+		background: #2d2420;
+		box-shadow: inset 0 1px 2px rgba(255, 239, 199, 0.25);
+	}
+	.discover-holes i:nth-child(3) {
+		background: #a94a3b;
+	}
+	.discover-card-content {
+		display: grid;
+		grid-template-columns: minmax(10.5rem, 0.82fr) minmax(0, 1fr);
+		gap: 1.25rem;
+		padding: 0.35rem 1.15rem 1.2rem;
+	}
+	.discover-poster {
+		position: relative;
+		min-width: 0;
+		aspect-ratio: 0.68;
+		overflow: hidden;
+		border: 1px solid rgba(36, 27, 21, 0.72);
+		background: #201716;
+		box-shadow:
+			inset 0 0 0 0.3rem rgba(215, 188, 136, 0.1),
+			0.3rem 0.35rem 0 rgba(83, 41, 34, 0.28);
+	}
+	.discover-poster img,
+	.discover-small-poster img,
+	.discover-queue-poster img {
+		display: block;
+		height: 100%;
+		width: 100%;
+		object-fit: cover;
+	}
+	.discover-poster-fallback {
+		background:
+			linear-gradient(180deg, rgba(8, 5, 6, 0.06), rgba(8, 5, 6, 0.56)),
+			url('/film-contact-sheet.png') var(--poster-position) / 300% 300% no-repeat;
+	}
+	.discover-poster-fallback > span {
+		position: absolute;
+		left: 0.8rem;
+		bottom: 0.7rem;
+		color: rgba(248, 228, 181, 0.88);
+		font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+		font-size: 0.56rem;
+		letter-spacing: 0.15em;
+		line-height: 1.25;
+		text-transform: uppercase;
+	}
+	.discover-poster-code {
+		position: absolute;
+		right: 0.55rem;
+		bottom: 0.45rem;
+		color: rgba(241, 202, 111, 0.82);
+		font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+		font-size: 0.55rem;
+		font-weight: 800;
+		letter-spacing: 0.1em;
+	}
+	.discover-card-copy {
+		position: relative;
+		min-width: 0;
+		padding: 0.5rem 0 0.25rem;
+	}
+	.discover-title-row {
+		display: flex;
+		align-items: flex-start;
+		justify-content: space-between;
+		gap: 0.75rem;
+	}
+	.discover-title-row h2 {
+		max-width: 13rem;
+		margin: 0;
+		font-size: 2.28rem;
+		line-height: 0.98;
+		word-break: break-word;
+	}
+	.discover-card-number {
+		color: rgba(102, 56, 40, 0.54);
+		font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+		font-size: 0.68rem;
+		font-weight: 800;
+		letter-spacing: 0.12em;
+	}
+	.discover-red-rule {
+		width: 5.7rem;
+		height: 0.18rem;
+		margin-top: 0.8rem;
+		transform: rotate(-1deg);
+		background: #a83b32;
+	}
+	.discover-year {
+		margin: 0.6rem 0 0;
+		font-family: Georgia, 'Times New Roman', serif;
+		font-size: 1.25rem;
+	}
+	.discover-genre {
+		margin: 0.22rem 0 0;
+		color: #8d332d;
+		font-family: Georgia, 'Times New Roman', serif;
+		font-size: 1rem;
+	}
+	.discover-rating-row {
+		display: flex;
+		align-items: center;
+		gap: 0.45rem;
+		margin-top: 0.65rem;
+		border: 1px solid rgba(55, 38, 29, 0.6);
+		padding: 0.48rem 0.55rem;
+		font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+		font-size: 0.75rem;
+		font-weight: 700;
+	}
+	.discover-rating-row span:nth-child(2) {
+		color: #573e2d;
+		letter-spacing: 0.03em;
+		white-space: nowrap;
+	}
+	.discover-rating-row span:nth-child(2) i {
+		color: #9a8670;
+		font-style: normal;
+	}
+	.discover-rating-row a {
+		margin-left: auto;
+		color: #8f2528;
+		font-size: 0.6rem;
+		text-decoration: underline;
+		text-underline-offset: 0.15rem;
+	}
+	.discover-plot {
+		max-width: 18rem;
+		margin: 1.35rem 0 0;
+		font-family: Georgia, 'Times New Roman', serif;
+		font-size: 0.98rem;
+		line-height: 1.45;
+	}
+	.discover-match-stamp {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		width: 5.6rem;
+		margin: 1.1rem 0 0 auto;
+		transform: rotate(-3deg);
+		border: 1px dashed rgba(143, 37, 40, 0.62);
+		padding: 0.34rem 0.25rem 0.25rem;
+		color: #8f2528;
+		font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+		text-transform: uppercase;
+	}
+	.discover-match-stamp span {
+		font-size: 0.48rem;
+		font-weight: 800;
+		letter-spacing: 0.09em;
+	}
+	.discover-match-stamp strong {
+		font-family: Georgia, 'Times New Roman', serif;
+		font-size: 1.3rem;
+		line-height: 1.1;
+	}
+	.discover-actions {
+		position: relative;
+		z-index: 5;
+		display: grid;
+		grid-template-columns: minmax(8.5rem, 1fr) auto minmax(8.5rem, 1fr);
+		align-items: center;
+		gap: 0.65rem;
+		margin: -0.05rem 0.4rem 0;
+	}
+	.discover-action {
+		display: flex;
+		min-height: 3.5rem;
+		align-items: center;
+		justify-content: center;
+		gap: 0.35rem;
+		border: 1px solid currentColor;
+		font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+		font-size: 1.1rem;
+		font-weight: 800;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		box-shadow: 0.2rem 0.28rem 0 rgba(0, 0, 0, 0.35);
+		transition:
+			transform 160ms ease,
+			filter 160ms ease;
+	}
+	.discover-action:hover {
+		filter: brightness(1.1);
+		transform: translateY(-2px);
+	}
+	.discover-pass {
+		background: #a84e4b;
+		color: #f1d8b8;
+	}
+	.discover-save {
+		background: #6e845c;
+		color: #253126;
+	}
+	.discover-arrow-hint {
+		color: #cfb93f;
+		font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+		font-size: 0.56rem;
+		font-weight: 700;
+		letter-spacing: 0.08em;
+		text-align: center;
+		white-space: nowrap;
+	}
+	.discover-rail {
+		min-width: 0;
+		padding: 0.65rem 0.2rem 0.2rem;
+		color: #e7d6b4;
+	}
+	.discover-rail-heading {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 0.8rem;
+		margin-bottom: 0.8rem;
+		border-bottom: 1px solid rgba(224, 199, 147, 0.25);
+		padding: 0 0.25rem 0.6rem;
+	}
+	.discover-rail-heading h2 {
+		margin: 0;
+		color: #d1c246;
+		font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+		font-size: 0.8rem;
+		font-weight: 800;
+		letter-spacing: 0.15em;
+		text-transform: uppercase;
+	}
+	.discover-rail-heading span {
+		position: relative;
+		padding: 0.42rem 0.75rem;
+		rotate: 1deg;
+		background: #d5c097;
+		color: #8f2528;
+		font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+		font-size: 0.62rem;
+		font-weight: 800;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+	}
+	.discover-shortlist-list {
+		display: grid;
+		gap: 0.68rem;
+	}
+	.discover-shortlist-card {
+		display: grid;
+		grid-template-columns: 4.65rem minmax(0, 1fr) 0.55rem;
+		min-height: 5.3rem;
+		align-items: stretch;
+		gap: 0.6rem;
+		border: 1px solid rgba(44, 31, 25, 0.7);
+		background: #d7c4a0;
+		padding: 0.35rem;
+		color: #2f211b;
+		text-decoration: none;
+		box-shadow: 0.25rem 0.28rem 0 rgba(0, 0, 0, 0.28);
+		transition:
+			transform 160ms ease,
+			filter 160ms ease;
+	}
+	.discover-shortlist-card:nth-child(2) {
+		transform: rotate(0.7deg);
+	}
+	.discover-shortlist-card:nth-child(3) {
+		transform: rotate(-0.7deg);
+	}
+	.discover-shortlist-card:hover {
+		filter: brightness(1.08);
+		transform: translateY(-2px) rotate(-0.4deg);
+	}
+	.discover-small-poster {
+		min-width: 0;
+		min-height: 4.5rem;
+		overflow: hidden;
+		border: 1px solid rgba(41, 29, 23, 0.7);
+		background: #241918;
+	}
+	.discover-shortlist-copy {
+		min-width: 0;
+		padding: 0.25rem 0 0.1rem;
+	}
+	.discover-shortlist-copy h3 {
+		margin: 0;
+		overflow: hidden;
+		font-family: Georgia, 'Times New Roman', serif;
+		font-size: 1rem;
+		font-weight: 700;
+		line-height: 1.05;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+	.discover-shortlist-copy p,
+	.discover-shortlist-copy span,
+	.discover-shortlist-copy strong {
+		display: block;
+		margin: 0.22rem 0 0;
+		font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+		font-size: 0.58rem;
+		line-height: 1.15;
+	}
+	.discover-shortlist-copy span {
+		overflow: hidden;
+		color: rgba(47, 33, 27, 0.76);
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+	.discover-shortlist-copy strong {
+		color: #513e2e;
+		letter-spacing: 0.04em;
+	}
+	.discover-save-dot {
+		align-self: center;
+		width: 0.55rem;
+		aspect-ratio: 1;
+		border: 1px solid rgba(29, 57, 34, 0.7);
+		border-radius: 50%;
+		background: #6a8d4c;
+	}
+	.discover-empty-shortlist {
+		display: grid;
+		min-height: 8.3rem;
+		place-items: center;
+		align-content: center;
+		gap: 0.35rem;
+		border: 1px dashed rgba(224, 199, 147, 0.38);
+		padding: 1rem;
+		color: rgba(231, 214, 180, 0.62);
+		font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+		font-size: 0.67rem;
+		line-height: 1.45;
+		text-align: center;
+	}
+	.discover-empty-shortlist > span {
+		color: #d1c246;
+		font-size: 1.5rem;
+	}
+	.discover-empty-shortlist p {
+		max-width: 13rem;
+		margin: 0;
+	}
+	.discover-status {
+		margin-top: 1.8rem;
+		border-top: 1px solid rgba(224, 199, 147, 0.25);
+		padding-top: 1.05rem;
+	}
+	.discover-status .discover-rail-heading {
+		margin-bottom: 0.7rem;
+		border-bottom: 0;
+		padding-bottom: 0;
+	}
+	.discover-status .discover-rail-heading span {
+		padding: 0;
+		rotate: 0deg;
+		background: transparent;
+		color: rgba(231, 214, 180, 0.66);
+	}
+	.discover-reel-status {
+		display: grid;
+		gap: 0.65rem;
+		border: 1px solid rgba(51, 35, 27, 0.75);
+		background: #ad926b;
+		padding: 0.62rem 0.7rem;
+		color: #30231d;
+		box-shadow: 0.2rem 0.25rem 0 rgba(0, 0, 0, 0.3);
+	}
+	.discover-reel-status > span {
+		font-size: 0.65rem;
+		font-weight: 800;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+	}
+	.discover-reel-status > div {
+		display: flex;
+		gap: 0.34rem;
+	}
+	.discover-reel-status i {
+		display: block;
+		width: 0.62rem;
+		aspect-ratio: 1;
+		border: 1px solid rgba(45, 32, 25, 0.6);
+		border-radius: 50%;
+		background: rgba(45, 32, 25, 0.22);
+	}
+	.discover-reel-status i.active {
+		background: #637c45;
+	}
+	.discover-semantic-label {
+		margin: 0.75rem 0 0;
+		color: rgba(209, 194, 70, 0.78);
+		font-size: 0.56rem;
+		font-weight: 800;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+	}
+	.discover-clear-button,
+	.discover-retry-button {
+		margin-top: 0.7rem;
+		border-bottom: 1px solid currentColor;
+		color: rgba(231, 214, 180, 0.62);
+		font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+		font-size: 0.62rem;
+		text-transform: uppercase;
+	}
+	.discover-clear-button:hover,
+	.discover-retry-button:hover {
+		color: #f0deb9;
+	}
+	.discover-loading-card,
+	.discover-empty-card {
+		display: grid;
+		place-items: center;
+		align-content: center;
+		gap: 0.7rem;
+		padding: 2rem;
+		text-align: center;
+	}
+	.discover-loading-card p,
+	.discover-empty-card h2,
+	.discover-empty-card p {
+		margin: 0;
+	}
+	.discover-loading-card p,
+	.discover-card-kicker {
+		color: #8f2528;
+		font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+		font-size: 0.75rem;
+		font-weight: 800;
+		letter-spacing: 0.15em;
+		text-transform: uppercase;
+	}
+	.discover-loading-card span,
+	.discover-empty-card p {
+		color: rgba(47, 33, 27, 0.7);
+		font-family: Georgia, 'Times New Roman', serif;
+		font-size: 0.95rem;
+	}
+	.discover-loading-mark {
+		color: #8f2528;
+		font-family: Georgia, 'Times New Roman', serif;
+		font-size: 4rem;
+		line-height: 1;
+		animation: reel-turn 2.4s linear infinite;
+	}
+	.discover-empty-card h2 {
+		font-size: 2.2rem;
+		line-height: 1;
+	}
+	.discover-retry-button {
+		border: 1px solid rgba(143, 37, 40, 0.68);
+		padding: 0.55rem 0.8rem;
+		color: #8f2528;
+	}
+	.discover-queue {
+		margin-top: 1.1rem;
+		border-top: 1px solid rgba(225, 206, 161, 0.22);
+		padding-top: 1rem;
+	}
+	.discover-queue-heading {
+		display: flex;
+		align-items: flex-end;
+		justify-content: space-between;
+		gap: 1rem;
+		margin-bottom: 0.75rem;
+	}
+	.discover-queue-heading p,
+	.discover-queue-heading span {
+		margin: 0;
+		text-transform: uppercase;
+	}
+	.discover-queue-heading p {
+		color: #e4d3ad;
+		font-size: 0.75rem;
+		font-weight: 800;
+		letter-spacing: 0.15em;
+	}
+	.discover-queue-heading div span {
+		display: block;
+		margin-top: 0.25rem;
+		color: rgba(226, 205, 160, 0.52);
+		font-size: 0.58rem;
+		letter-spacing: 0.1em;
+	}
+	.discover-queue-code {
+		color: rgba(182, 77, 76, 0.82);
+		font-size: 0.58rem;
+		letter-spacing: 0.13em;
+	}
+	.discover-queue-track {
+		display: grid;
+		grid-auto-columns: minmax(15rem, 1fr);
+		grid-auto-flow: column;
+		gap: 0.7rem;
+		overflow-x: auto;
+		padding: 0.2rem 0.1rem 0.65rem;
+		scroll-snap-type: x mandatory;
+	}
+	.discover-queue-card {
+		display: grid;
+		grid-template-columns: 4rem minmax(0, 1fr) auto;
+		min-width: 0;
+		min-height: 5.4rem;
+		align-items: center;
+		gap: 0.65rem;
+		scroll-snap-align: start;
+		border: 1px solid rgba(55, 38, 29, 0.62);
+		background: #d6c39f;
+		padding: 0.35rem;
+		color: #30231d;
+		text-decoration: none;
+		box-shadow: 0.25rem 0.3rem 0 rgba(0, 0, 0, 0.26);
+		transition:
+			transform 160ms ease,
+			filter 160ms ease;
+	}
+	.discover-queue-card:hover {
+		filter: brightness(1.08);
+		transform: translateY(-2px);
+	}
+	.discover-queue-poster {
+		height: 4.6rem;
+		overflow: hidden;
+		border: 1px solid rgba(44, 30, 22, 0.68);
+		background: #2c1c1a;
+	}
+	.discover-queue-card h3 {
+		margin: 0;
+		overflow: hidden;
+		font-family: Georgia, 'Times New Roman', serif;
+		font-size: 1rem;
+		line-height: 1.05;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+	.discover-queue-card p,
+	.discover-queue-card strong {
+		display: block;
+		margin: 0.35rem 0 0;
+		font-size: 0.58rem;
+		line-height: 1.2;
+	}
+	.discover-queue-card strong {
+		color: #5c442f;
+		letter-spacing: 0.05em;
+	}
+	.discover-add-mark {
+		align-self: center;
+		color: #5c804b;
+		font-family: Georgia, 'Times New Roman', serif;
+		font-size: 1.7rem;
+	}
+	.discover-queue-skeleton {
+		min-height: 5.4rem;
+		border: 1px solid rgba(225, 206, 161, 0.12);
+		background: rgba(225, 206, 161, 0.08);
+		animation: discover-pulse 1.4s ease-in-out infinite alternate;
+	}
+	.discover-queue-empty {
+		display: flex;
+		gap: 0.65rem;
+		color: rgba(226, 205, 160, 0.58);
+		font-size: 0.68rem;
+		text-transform: uppercase;
+	}
+}
+
+@media (min-width: 1024px) {
+	.discover-grid {
+		grid-template-columns: minmax(14rem, 0.68fr) minmax(30rem, 1.48fr) minmax(14rem, 0.68fr);
+		align-items: start;
+		gap: 1.25rem;
+	}
+	.discover-brief {
+		margin-top: 0.25rem;
+	}
+	.discover-rail {
+		border-left: 1px solid rgba(224, 199, 147, 0.2);
+		padding-left: 0.9rem;
+	}
+	.discover-card-wrap {
+		min-height: 30.8rem;
+	}
+	.discover-queue-track {
+		grid-auto-columns: minmax(13rem, 1fr);
+	}
+}
+
+@media (max-width: 639px) {
+	.discover-intro {
+		align-items: flex-start;
+		flex-direction: column;
+		gap: 0.4rem;
+	}
+	.discover-brief {
+		min-height: auto;
+	}
+	.discover-card-content {
+		grid-template-columns: 8.8rem minmax(0, 1fr);
+		gap: 0.85rem;
+		padding-inline: 0.8rem;
+	}
+	.discover-title-row h2 {
+		font-size: 1.72rem;
+	}
+	.discover-card-topline {
+		padding-inline: 0.8rem;
+	}
+	.discover-rating-row {
+		align-items: flex-start;
+		flex-wrap: wrap;
+	}
+	.discover-rating-row a {
+		margin-left: 0;
+		width: 100%;
+	}
+	.discover-plot {
+		margin-top: 0.9rem;
+		font-size: 0.86rem;
+	}
+	.discover-actions {
+		grid-template-columns: 1fr 1fr;
+		gap: 0.55rem;
+		margin-inline: 0.2rem;
+	}
+	.discover-arrow-hint {
+		grid-column: 1 / -1;
+		grid-row: 1;
+		margin-bottom: -0.25rem;
+		font-size: 0.5rem;
+	}
+	.discover-pass {
+		grid-column: 1;
+		grid-row: 2;
+	}
+	.discover-save {
+		grid-column: 2;
+		grid-row: 2;
+	}
+	.discover-queue-heading {
+		align-items: flex-start;
+		flex-direction: column;
+	}
+}
+
+@keyframes discover-pulse {
+	to {
+		opacity: 0.42;
+	}
+}
+
 @media (min-width: 1280px) {
 	.film-metadata-rail {
 		display: block;

@@ -11,6 +11,16 @@ export const GET: RequestHandler = async ({ fetch }) => {
 			timeout: Number(env.LOCAL_LLM_TIMEOUT_MS) || 45_000
 		},
 		{
+			name: 'nvidia-nim',
+			baseUrl: (env.NVIDIA_NIM_BASE_URL ?? 'https://integrate.api.nvidia.com/v1').replace(
+				/\/$/,
+				''
+			),
+			apiKey: (env.NVIDIA_NIM_API_KEY ?? env.NVIDIA_API_KEY)?.trim() || 'local',
+			model: env.NVIDIA_NIM_MODEL,
+			timeout: Number(env.NVIDIA_NIM_TIMEOUT_MS) || 45_000
+		},
+		{
 			name: 'cloud',
 			baseUrl: (env.LLM_BASE_URL ?? 'https://api.openai.com/v1').replace(/\/$/, ''),
 			apiKey: (env.LLM_API_KEY ?? env.OPENAI_API_KEY)?.trim(),

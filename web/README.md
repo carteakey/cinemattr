@@ -14,10 +14,10 @@ No LangChain. No Pinecone. No Lambda.
 
 ## Movie discovery
 
-`/discover` provides a mobile-first card deck for deciding what to watch. Enter a mood,
-plot, or genre, then swipe or use the pass/save controls. Saved movies remain in a local
-shortlist on that browser. The discovery page uses the same search and OMDb server routes,
-so API credentials are never exposed to the client.
+`/discover` provides a responsive movie-match workbench for deciding what to watch. Enter a
+mood, plot, or genre, then swipe or use the pass/save controls. Saved movies remain in a local
+shortlist on that browser, with the remaining deck shown in a queue. The discovery page uses
+the same search and OMDb server routes, so API credentials are never exposed to the client.
 
 ## Environment variables
 
@@ -30,6 +30,12 @@ LOCAL_LLM_BASE_URL=http://kpc-cachy.llama-alnair.ts.net:8001/v1
 LOCAL_LLM_API_KEY=...
 LOCAL_LLM_MODEL=gemma-4-26b-qat-mtp
 LOCAL_LLM_TIMEOUT_MS=45000
+
+# Optional NVIDIA NIM provider (tried after local and before LLM_*)
+NVIDIA_NIM_BASE_URL=https://integrate.api.nvidia.com/v1
+NVIDIA_NIM_API_KEY=nvapi-...
+NVIDIA_NIM_MODEL=meta/llama-3.1-8b-instruct
+NVIDIA_NIM_TIMEOUT_MS=45000
 
 # Cloud fallback
 LLM_BASE_URL=https://api.openai.com/v1
@@ -45,7 +51,7 @@ SEARCH_API_RETRY_DELAY_MS=1000
 SEARCH_API_TIMEOUT_MS=60000
 ```
 
-Works with any OpenAI-compatible provider for `LLM_*` — OpenAI, Gemini, local models.
+Works with any OpenAI-compatible provider for `LLM_*` — OpenAI, NVIDIA NIM, Gemini, and local models. NIM settings are optional and are used for prompt generation when configured.
 
 ## Local development
 
