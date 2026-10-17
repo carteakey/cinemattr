@@ -1,8 +1,14 @@
-name: CI
+name: Web CI
 
 on:
   push:
+    paths: ["web/**", ".github/workflows/web-ci.yml"]
   pull_request:
+    paths: ["web/**", ".github/workflows/web-ci.yml"]
+
+defaults:
+  run:
+    working-directory: web
 
 jobs:
   frontend:
@@ -13,6 +19,7 @@ jobs:
         with:
           node-version: 22
           cache: npm
+          cache-dependency-path: web/package-lock.json
       - run: npm ci
       - run: npm run check
       - run: npm run lint
