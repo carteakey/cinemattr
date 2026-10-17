@@ -27,6 +27,20 @@ class EmbeddingsTest(unittest.TestCase):
         self.assertEqual(config.query_prefix, "search_query: ")
         self.assertEqual(config.document_prefix, "search_document: ")
 
+    def test_config_can_use_nim_embeddings(self):
+        values = {
+            "NVIDIA_NIM_API_KEY": "nvapi-test",
+            "NVIDIA_NIM_BASE_URL": "http://nim.test/v1",
+            "NVIDIA_NIM_EMBEDDING_MODEL": "nvidia/nv-embed-v1",
+            "EMBEDDING_DIM": "4096",
+        }
+        with patch.dict(os.environ, values, clear=True):
+            config = embeddings.load_embedding_config()
+        self.assertEqual(config.base_url, "http://nim.test/v1")
+        self.assertEqual(config.api_key, "nvapi-test")
+        self.assertEqual(config.model, "nvidia/nv-embed-v1")
+        self.assertEqual(config.dim, 4096)
+
     def test_query_prefix_is_sent_to_provider(self):
         create = Mock(
             return_value=SimpleNamespace(data=[SimpleNamespace(embedding=[0.1, 0.2])])

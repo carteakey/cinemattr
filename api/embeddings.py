@@ -22,14 +22,42 @@ class EmbeddingConfig:
 
 
 def load_embedding_config() -> EmbeddingConfig:
-    base_url = (os.getenv("EMBEDDING_BASE_URL") or os.getenv("LLM_BASE_URL") or "").strip()
-    api_key = (os.getenv("EMBEDDING_API_KEY") or os.getenv("LLM_API_KEY") or os.getenv("OPENAI_API_KEY") or "").strip()
-    model = os.getenv("EMBEDDING_MODEL", "text-embedding-3-small").strip()
+    explicit_base_url = (os.getenv("EMBEDDING_BASE_URL") or "").strip()
+    nim_embedding_model = (os.getenv("NVIDIA_NIM_EMBEDDING_MODEL") or "").strip()
+    nim_base_url = (
+        os.getenv("NVIDIA_NIM_EMBEDDING_BASE_URL")
+        or os.getenv("NVIDIA_NIM_BASE_URL")
+        or "https://integrate.api.nvidia.com/v1"
+    ).strip()
+    nim_api_key = (
+        os.getenv("NVIDIA_NIM_EMBEDDING_API_KEY")
+        or os.getenv("NVIDIA_NIM_API_KEY")
+        or os.getenv("NVIDIA_API_KEY")
+        or "local"
+    ).strip()
+
+    if not explicit_base_url and nim_embedding_model:
+        base_url = nim_base_url
+        api_key = nim_api_key
+        model = nim_embedding_model
+    else:
+        base_url = (explicit_base_url or os.getenv("LLM_BASE_URL") or "").strip()
+        api_key = (
+            os.getenv("EMBEDDING_API_KEY")
+            or os.getenv("LLM_API_KEY")
+            or os.getenv("OPENAI_API_KEY")
+            or ""
+        ).strip()
+        model = os.getenv("EMBEDDING_MODEL", "text-embedding-3-small").strip()
 
     if not base_url:
-        raise RuntimeError("EMBEDDING_BASE_URL or LLM_BASE_URL is required.")
+        raise RuntimeError(
+            "EMBEDDING_BASE_URL, NVIDIA_NIM_EMBEDDING_MODEL, or LLM_BASE_URL is required."
+        )
     if not api_key:
-        raise RuntimeError("EMBEDDING_API_KEY or LLM_API_KEY is required.")
+        raise RuntimeError(
+            "EMBEDDING_API_KEY, NVIDIA_NIM_API_KEY, or LLM_API_KEY is required."
+        )
 
     raw_dim = os.getenv("EMBEDDING_DIM", "").strip()
     dim = int(raw_dim) if raw_dim else None

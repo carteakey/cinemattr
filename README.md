@@ -37,6 +37,14 @@ LOCAL_LLM_API_KEY=...
 LOCAL_LLM_MODEL=gemma-4-26b-qat-mtp
 LOCAL_LLM_TIMEOUT_SECONDS=45
 
+# Optional NVIDIA NIM provider (tried after local and before LLM_*)
+# Hosted NIM: https://integrate.api.nvidia.com/v1
+# Self-hosted NIM: http://nim:8000/v1
+NVIDIA_NIM_BASE_URL=https://integrate.api.nvidia.com/v1
+NVIDIA_NIM_API_KEY=nvapi-...
+NVIDIA_NIM_MODEL=meta/llama-3.1-8b-instruct
+NVIDIA_NIM_TIMEOUT_SECONDS=45
+
 # Cloud fallback
 LLM_BASE_URL=https://api.openai.com/v1
 LLM_API_KEY=...
@@ -49,6 +57,11 @@ EMBEDDING_MODEL=text-embedding-3-small
 EMBEDDING_DIM=1536          # must match the model's output dim
 EMBEDDING_QUERY_PREFIX=
 EMBEDDING_DOCUMENT_PREFIX=
+
+# Optional NIM embeddings. Set EMBEDDING_DIM to the served model's dimension.
+# NVIDIA_NIM_EMBEDDING_MODEL=nvidia/nv-embed-v1
+# NVIDIA_NIM_EMBEDDING_BASE_URL=https://integrate.api.nvidia.com/v1
+# NVIDIA_NIM_EMBEDDING_API_KEY=nvapi-...
 
 # Vector store
 DUCKDB_PATH=data/cinemattr.duckdb
@@ -166,7 +179,7 @@ docker compose -f deploy/docker-compose.yml --env-file deploy/.env.example confi
 No. Both were dropped. Filter parsing is a single JSON-structured LLM call (`api/filter_parser.py`). Vector search is DuckDB VSS with an HNSW index (`api/vector_store.py`).
 
 **Can I use a provider other than OpenAI?**
-Yes. Any OpenAI-compatible endpoint works — Gemini, local models (Ollama, LM Studio), etc. Set `LLM_BASE_URL`, `LLM_API_KEY`, `LLM_MODEL` and optionally the `EMBEDDING_*` equivalents.
+Yes. Any OpenAI-compatible endpoint works — NVIDIA NIM, Gemini, local models (Ollama, LM Studio), etc. Set `LLM_BASE_URL`, `LLM_API_KEY`, `LLM_MODEL` and optionally the `EMBEDDING_*` equivalents. NVIDIA NIM can be configured as an optional fallback with `NVIDIA_NIM_BASE_URL`, `NVIDIA_NIM_API_KEY`, and `NVIDIA_NIM_MODEL`.
 
 **Why is `/search` returning no results?**
 Most likely the DuckDB VSS table is empty. You need to run `api/load_embeddings.py` against a populated movie corpus first. See "Loading the vector store" above.

@@ -50,6 +50,7 @@ class LLMProvider:
     name: str
     client: OpenAI
     model: str
+    supports_json_mode: bool = True
 
 
 def _build_providers() -> list[LLMProvider]:
@@ -67,6 +68,30 @@ def _build_providers() -> list[LLMProvider]:
                     max_retries=0,
                 ),
                 model=local_model,
+            )
+        )
+
+    nim_base_url = (
+        os.getenv("NVIDIA_NIM_BASE_URL") or "https://integrate.api.nvidia.com/v1"
+    ).strip()
+    nim_api_key = (
+        os.getenv("NVIDIA_NIM_API_KEY") or os.getenv("NVIDIA_API_KEY") or "local"
+    ).strip()
+    nim_model = (os.getenv("NVIDIA_NIM_MODEL") or "").strip()
+    if nim_base_url and nim_model:
+        providers.append(
+            LLMProvider(
+                name="nvidia-nim",
+                client=OpenAI(
+                    api_key=nim_api_key,
+                    base_url=nim_base_url,
+                    timeout=float(os.getenv("NVIDIA_NIM_TIMEOUT_SECONDS", "45")),
+                    max_retries=0,
+                ),
+                model=nim_model,
+                # Some NIM models do not expose OpenAI JSON mode. The prompt and
+                # _extract_json keep this provider compatible with both cases.
+                supports_json_mode=False,
             )
         )
 
@@ -98,15 +123,17 @@ def parse_query(raw_query: str) -> ParsedQuery:
     last_error: Exception | None = None
     for provider in _build_providers():
         try:
-            response = provider.client.chat.completions.create(
-                model=provider.model,
-                temperature=0,
-                messages=[
+            request = {
+                "model": provider.model,
+                "temperature": 0,
+                "messages": [
                     {"role": "system", "content": SYSTEM_PROMPT},
                     {"role": "user", "content": raw_query},
                 ],
-                response_format={"type": "json_object"},
-            )
+            }
+            if provider.supports_json_mode:
+                request["response_format"] = {"type": "json_object"}
+            response = provider.client.chat.completions.create(**request)
             payload = response.choices[0].message.content or ""
             logger.info("Query parsed with %s provider (%s).", provider.name, provider.model)
             break
