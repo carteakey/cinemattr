@@ -1,6 +1,13 @@
-# cinemattr-db
+# cinemattr
 
-Backend and database of [cinemattr.ca](https://github.com/carteakey/cinemattr.ca).
+Search movies by plot in plain English — live at [cinemattr-ca.vercel.app](https://cinemattr-ca.vercel.app).
+
+| Path | What | Formerly |
+|---|---|---|
+| repo root (`api/`, `db/`, `deploy/`, `tests/`) | FastAPI backend + DuckDB VSS movie index | `cinemattr-db` |
+| [`web/`](web) | SvelteKit frontend (deployed on Vercel from `web/`) | [`cinemattr.ca`](https://github.com/carteakey/cinemattr.ca) (archived) |
+
+Full history of both repos is preserved. The frontend's other branches live here as `web/<branch>`.
 
 ## How it works
 
